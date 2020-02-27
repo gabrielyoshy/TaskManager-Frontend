@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "TaskManager": {
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "TaskManager"
+    }
+  },
+  "defaultProject": "TaskManager",
+  "cli": {
+    "analytics": "fdfa02d3-cf46-4977-a095-ff119bf1b2fe"
+  }
 }
