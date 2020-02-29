@@ -9,15 +9,13 @@ export class ServiceService {
 
   constructor(private http:HttpClient) { }
 
-  Url='http://localhost:9090/taskmanager/skill';
+  Url='http://localhost:9090/taskmanager/skills';
 
   getSkill(){
-    this.Url += '/list';
     return this.http.get<Skill[]>(this.Url);
   }
 
   createSkill(skill:Skill){
-
     return this.http.post<Skill>(this.Url, skill);
   }
 }
