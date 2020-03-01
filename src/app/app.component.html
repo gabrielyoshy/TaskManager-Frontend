@@ -1,11 +1,5 @@
-<div style="text-align: center">
-  <h1>
-    Holaaaa {{title}}
-  </h1>
+<app-navigation></app-navigation>
+
+<div class="container p-4">
+  <router-outlet></router-outlet>
 </div>
-<div class="container">
-  <button (click)="List()" class="btn btn-info">List</button>
-  <button (click)="New()" class="btn btn-info" style="margin-left: 10px;">New</button>
-</div>
-<hr>
-<router-outlet></router-outlet>

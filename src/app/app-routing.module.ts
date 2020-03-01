@@ -1,16 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ListComponent } from './Skill/list/list.component';
-import { AddComponent } from './Skill/add/add.component';
-import { EditComponent } from './Skill/edit/edit.component';
-import { DeleteComponent } from './Skill/delete/delete.component';
 
-
+import { KundeListComponent  } from './components/kunde/kunde-list/kunde-list.component';
+import { ProjektListComponent  } from './components/projekte/projekt-list/projekt-list.component';
+import { ProjektAddComponent } from './components/projekte/projekt-add/projekt-add.component';
 const routes: Routes = [
-  {path:'list', component:ListComponent},
-  {path:'add', component:AddComponent},
-  {path:'edit', component:EditComponent},
-  {path:'delete', component:DeleteComponent},
+  {
+    path: '',
+    redirectTo: 'projekte',
+    pathMatch: 'full'
+  },
+  {
+    path: 'projekte',
+    component: ProjektListComponent
+  },
+  {
+    path: 'projekte/add',
+    component: ProjektAddComponent
+  },
+  {
+    path: 'kunde',
+    component: KundeListComponent
+  }
 
 ];
 

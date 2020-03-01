@@ -1,0 +1,19 @@
+<div class="col-md4">
+    <button  class="btn btn-info" (click)= "goToNewProjekt()" >New</button>
+</div>
+<div class="col-md-4" *ngFor= "let projekt of projekte">
+    <div class="card text-center">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            {{projekt.name}}
+            <button class="btn btn-danger">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+        <div class="card-body">
+            {{projekt.beschreibung}}
+            <a href="" class="btn btn-info btn-block">
+                EDIT
+            </a>
+        </div>
+    </div>
+</div>
