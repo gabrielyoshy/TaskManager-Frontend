@@ -14,10 +14,16 @@
                 <div class="form-group">
                     <input type="date" name="spatestes_enddat" [(ngModel)]="projekt.spatestes_enddat"  class="form-control" > 
                 </div>
-                <button class="btn btn-success btn-block" (click)="saveNewProjekt()">
+                <button class="btn btn-success btn-block" (click)="edit ? editProjekt() : saveNewProjekt()">
                     Save
                 </button>
             </form>
         </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card card-body text-center">
+        
     </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-kunde-add',
   templateUrl: './kunde-add.component.html',
@@ -10,6 +11,7 @@ export class KundeAddComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+   
   }
 
 }

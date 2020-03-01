@@ -1,19 +1,27 @@
-<div class="col-md4">
-    <button  class="btn btn-info" (click)= "goToNewProjekt()" >New</button>
-</div>
-<div class="col-md-4" *ngFor= "let projekt of projekte">
-    <div class="card text-center">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-            {{projekt.name}}
-            <button class="btn btn-danger">
-                <i class="fas fa-trash"></i>
-            </button>
-        </div>
-        <div class="card-body">
-            {{projekt.beschreibung}}
-            <a href="" class="btn btn-info btn-block">
+<div class="row">
+    <div class="col-md6" *ngFor= "let projekt of projekte">
+        <div class="card" >
+            <div class="card-header">
+                {{projekt.name}}
+                <button class="btn btn-danger" (click)=deleteProjekt(projekt.id_projekt)>
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="card-body">
+            <h5 class="card-title">{{projekt.beschreibung}}</h5>
+            <p class="card-text">Frühesten kalendarischen Anfang:{{projekt.fruheste_stardat | date: 'dd MMMM yyyy'}} </p>
+            <p class="card-text">Spätestes Ende:{{projekt.spatestes_enddat | date: 'dd MMMM yyyy'}} </p>
+            <a [routerLink]="['/projekte/edit', projekt.id_projekt]" class="btn btn-info btn-block" >
                 EDIT
             </a>
+            </div>
         </div>
     </div>
 </div>
+<div class="w-100"></div>
+<div class="row">
+    <div class="col">
+    <button class="btn btn-info" [routerLink]= "['/projekte/add']">
+        Create
+    </button>
+</div></div>

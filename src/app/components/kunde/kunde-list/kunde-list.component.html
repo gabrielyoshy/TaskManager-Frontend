@@ -1,1 +1,15 @@
-<p>kunde-list works!</p>
+<div class="list-group" >
+    <a  class="list-group-item list-group-item-action active">
+      Kundenliste
+    </a>
+    <a [routerLink]="['/kunde/edit', kunde.id_kunde]" class="list-group-item list-group-item-action"*ngFor= "let kunde of kundes">{{kunde.vorname}} {{kunde.nachname}} </a>
+    <a  class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">ejemplo de un cliente sin projecto</a>
+</div>
+
+<div class="w-100"></div>
+<div class="row">
+    <div class="col">
+    <button class="btn btn-info" [routerLink]= "['/kunde/add']">
+        Create
+    </button>
+</div></div>
