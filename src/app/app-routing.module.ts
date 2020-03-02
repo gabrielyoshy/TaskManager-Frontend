@@ -6,6 +6,13 @@ import { KundeAddComponent  } from './components/kunde/kunde-add/kunde-add.compo
 
 import { ProjektListComponent  } from './components/projekte/projekt-list/projekt-list.component';
 import { ProjektAddComponent } from './components/projekte/projekt-add/projekt-add.component';
+
+import { SkillListComponent  } from './components/skills/skill-list/skill-list.component';
+import { SkillAddComponent } from './components/skills/skill-add/skill-add.component';
+
+import { MitarbeiterListComponent  } from './components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component';
+import { MitarbeiterAddComponent } from './components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -25,7 +32,7 @@ const routes: Routes = [
     component: ProjektAddComponent
   },
   {
-    path: 'kunde',
+    path: 'kunden',
     component: KundeListComponent
   },
   {
@@ -35,6 +42,30 @@ const routes: Routes = [
   {
     path: 'kunde/edit/:id',
     component: KundeAddComponent
+  },
+  {
+    path: 'skill',
+    component: SkillListComponent
+  },
+  {
+    path: 'skill/add',
+    component: SkillAddComponent
+  },
+  {
+    path: 'skill/edit/:id',
+    component: SkillAddComponent
+  },
+  {
+    path: 'mitarbeiter',
+    component: MitarbeiterListComponent
+  },
+  {
+    path: 'mitarbeiter/add',
+    component: MitarbeiterAddComponent
+  },
+  {
+    path: 'mitarbeiter/edit/:id',
+    component: MitarbeiterAddComponent
   }
 
 ];

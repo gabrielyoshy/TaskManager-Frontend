@@ -3,6 +3,7 @@ import { Projekt } from 'src/app/Models/Projekt';
 import { ActivatedRoute ,Router } from '@angular/router';
 
 import { ServiceService } from '../../../Service/service.service';
+import { Kunde } from 'src/app/Models/Kunde';
 
 @Component({
   selector: 'app-projekt-add',
@@ -17,9 +18,17 @@ export class ProjektAddComponent implements OnInit {
     id_projekt: 0,
     name: '',
     beschreibung: '',
+    kunde:{
+      id_kunde: 0,
+      nachname: '',
+      vorname: '',
+    },
     fruheste_stardat: new Date(),
     spatestes_enddat: new Date(),
   }
+
+  kunden: [];
+  
 
   edit: boolean = false;
 
@@ -30,7 +39,17 @@ export class ProjektAddComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+
     const params = this.activedRoute.snapshot.params;
+    
+    this.service.getKunden().subscribe(
+      res => {
+        console.log(res);
+        this.kunden = res;
+      },
+      err => console.error(err)
+    )
+
     if(params.id){
       this.service.getProjekt(params.id)
       .subscribe(
@@ -66,6 +85,7 @@ export class ProjektAddComponent implements OnInit {
       },
       err=> console.error(err)
     )
+    //console.log(this.projekt);
   }
 
 }

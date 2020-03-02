@@ -1,1 +1,23 @@
-<p>kunde-add works!</p>
+<div class="col-md-4 offset-md-4">
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <input type="text" name="vorname" [(ngModel)]="kunde.vorname" placeholder="Vorame" class="form-control" autofocus > 
+                </div>
+                <div class="form-group">
+                    <input type="text" name="nachname" [(ngModel)]="kunde.nachname" placeholder="Nachname" class="form-control" > 
+                </div>
+                <button class="btn btn-success btn-block" (click)="edit ? editKunde() : saveNewKunde()">
+                    Save
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="card card-body text-center">
+        
+    </div>
+</div>

@@ -15,6 +15,10 @@ import { KundeAddComponent } from './components/kunde/kunde-add/kunde-add.compon
 import { KundeListComponent } from './components/kunde/kunde-list/kunde-list.component';
 import { ProjektAddComponent } from './components/projekte/projekt-add/projekt-add.component';
 import { ProjektListComponent } from './components/projekte/projekt-list/projekt-list.component';
+import { MitarbeiterAddComponent } from './components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component';
+import { MitarbeiterListComponent } from './components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component';
+import { SkillListComponent } from './components/skills/skill-list/skill-list.component';
+import { SkillAddComponent } from './components/skills/skill-add/skill-add.component';
 
 
 @NgModule({
@@ -24,7 +28,11 @@ import { ProjektListComponent } from './components/projekte/projekt-list/projekt
     KundeAddComponent,
     KundeListComponent,
     ProjektAddComponent,
-    ProjektListComponent
+    ProjektListComponent,
+    MitarbeiterAddComponent,
+    MitarbeiterListComponent,
+    SkillListComponent,
+    SkillAddComponent
   ],
   imports: [
     BrowserModule,

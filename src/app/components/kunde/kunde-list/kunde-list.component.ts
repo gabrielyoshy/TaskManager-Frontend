@@ -21,7 +21,7 @@ export class KundeListComponent implements OnInit {
   }
 
   getKunde(){
-    this.service.getKunde().subscribe(
+    this.service.getKunden().subscribe(
       res => {
         console.log(res);
         this.kundes = res;
