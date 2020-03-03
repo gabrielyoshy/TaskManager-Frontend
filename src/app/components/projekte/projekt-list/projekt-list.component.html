@@ -1,28 +1,31 @@
-<div class="row">
-    <div class="col-md6" *ngFor= "let projekt of projekte">
-        <div class="card" >
-            <div class="card-header">
-                <b>{{projekt.name}} </b> - {{projekt.kunde.vorname + ' ' + projekt.kunde.nachname}}
-                <button class="btn btn-danger" (click)=deleteProjekt(projekt.id_projekt)>
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>
-            <div class="card-body">
-            <h5 class="card-title">{{projekt.beschreibung}}</h5>
-
-            <p class="card-text">Frühesten Anfang:{{projekt.fruheste_stardat | date: 'dd MMMM yyyy'}} </p>
-            <p class="card-text">Spätestes Ende:{{projekt.spatestes_enddat | date: 'dd MMMM yyyy'}} </p>
-            <a [routerLink]="['/projekte/edit', projekt.id_projekt]" class="btn btn-info btn-block" >
-                EDIT
-            </a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="w-100"></div>
-<div class="row">
-    <div class="col">
-    <button class="btn btn-info" [routerLink]= "['/projekte/add']">
-        Create
+<div class="card" *ngFor="let projekt of projekte">
+  <div class="card-header">
+    <b>{{ projekt.name }} </b> -
+    {{ projekt.kunde.vorname + " " + projekt.kunde.nachname }}
+    <button class="btn btn-danger" (click)="deleteProjekt(projekt.id_projekt)">
+      <i class="fas fa-trash"></i>
     </button>
-</div></div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ projekt.beschreibung }}</h5>
+
+    <p class="card-text">
+      Frühesten Anfang:{{ projekt.fruheste_stardat | date: "dd MMMM yyyy" }}
+    </p>
+    <p class="card-text">
+      Spätestes Ende:{{ projekt.spatestes_enddat | date: "dd MMMM yyyy" }}
+    </p>
+    <a
+      [routerLink]="['/projekte/edit', projekt.id_projekt]"
+      class="btn btn-info btn-block"
+    >
+      EDIT
+    </a>
+  </div>
+</div>
+
+<div class="w-100"></div>
+
+<button class="btn btn-info" [routerLink]="['/projekte/add']">
+  Create
+</button>

@@ -1,107 +1,117 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
-
-import { Skill } from '../Models/Skill';
-import { Projekt } from '../Models/Projekt';
-import { Kunde } from '../Models/Kunde';
-import { Mitarbeiter } from '../Models/Mitarbeiter';
-
+import { Skill } from "../Models/Skill";
+import { Projekt } from "../Models/Projekt";
+import { Kunde } from "../Models/Kunde";
+import { Mitarbeiter } from "../Models/Mitarbeiter";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ServiceService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
+  Url = "http://localhost:9090/taskmanager";
 
-  Url='http://localhost:9090/taskmanager';
+  /* Interface mit Projekte*/
 
-  /* Interface mit Projekte*/  
-  getProjekte(){
+  getProjekte() {
     return this.http.get<any>(`${this.Url}/projekt/list`);
   }
 
-  getProjekt(id: number){
+  getProjekt(id: number) {
     return this.http.get<Projekt>(`${this.Url}/projekt/list/${id}`);
   }
 
-  deleteProjekt(id: number){
-    return this.http.delete(`${this.Url}/projekt/delete/${id}`)
+  deleteProjekt(id: number) {
+    return this.http.delete(`${this.Url}/projekt/delete/${id}`);
   }
 
-  saveProjekt(projekt: Projekt){
+  saveProjekt(projekt: Projekt) {
     return this.http.post(`${this.Url}/projekt/new/`, projekt);
   }
 
-  updateProjekt(id: number, projekt: Projekt): Observable<Projekt>{
-    return this.http.put<Projekt>(`${this.Url}/projekt/edit/${projekt.id_projekt}`, projekt); 
+  updateProjekt(id: number, projekt: Projekt): Observable<Projekt> {
+    return this.http.put<Projekt>(
+      `${this.Url}/projekt/edit/${projekt.id_projekt}`,
+      projekt
+    );
   }
 
-
   /* Interface mit Kunden*/
-  getKunden(){
+  getKunden() {
     return this.http.get<any>(`${this.Url}/kunde/list`);
   }
 
-  getKunde(id: number){
+  getKunde(id: number) {
     return this.http.get<Kunde>(`${this.Url}/kunde/list/${id}`);
   }
 
-  deleteKunde(id: number){
-    return this.http.delete(`${this.Url}/kunde/delete/${id}`)
+  deleteKunde(id: number) {
+    return this.http.delete(`${this.Url}/kunde/delete/${id}`);
   }
 
-  saveKunde(kunde: Kunde){
+  saveKunde(kunde: Kunde) {
     return this.http.post(`${this.Url}/kunde/new/`, kunde);
   }
 
-  updateKunde(id: number, kunde: Kunde): Observable<Kunde>{
-    return this.http.put<Kunde>(`${this.Url}/kunde/edit/${kunde.id_kunde}`, kunde); 
+  updateKunde(id: number, kunde: Kunde): Observable<Kunde> {
+    return this.http.put<Kunde>(
+      `${this.Url}/kunde/edit/${kunde.id_kunde}`,
+      kunde
+    );
   }
-  
+
   /* Interface mit Skills*/
-  getSkills(){
+  getSkills() {
     return this.http.get<any>(`${this.Url}/skill/list`);
   }
 
-  getSkill(id: number){
+  getSkill(id: number) {
     return this.http.get<Skill>(`${this.Url}/skill/list/${id}`);
   }
 
-  deleteSkill(id: number){
-    return this.http.delete(`${this.Url}/skill/delete/${id}`)
+  deleteSkill(id: number) {
+    return this.http.delete(`${this.Url}/skill/delete/${id}`);
   }
 
-  saveSkill(skill: Skill){
+  saveSkill(skill: Skill) {
     return this.http.post(`${this.Url}/skill/new/`, skill);
   }
 
-  updateSkill(id: number, skill: Skill): Observable<Skill>{
-    return this.http.put<Skill>(`${this.Url}/skill/edit/${skill.id_skill}`, skill); 
+  updateSkill(id: number, skill: Skill): Observable<Skill> {
+    return this.http.put<Skill>(
+      `${this.Url}/skill/edit/${skill.id_skill}`,
+      skill
+    );
   }
 
   /* Interface mit Mitarbeiter*/
-  getMitarbeiter(){
+  getMitarbeiter() {
     return this.http.get<any>(`${this.Url}/mitarbeiter/list`);
   }
 
-  getMitarbeite(id: number){
+  getMitarbeite(id: number) {
     return this.http.get<Mitarbeiter>(`${this.Url}/mitarbeiter/list/${id}`);
   }
 
-  deleteMitarbeiter(id: number){
-    return this.http.delete(`${this.Url}/mitarbeiter/delete/${id}`)
+  deleteMitarbeiter(id: number) {
+    return this.http.delete(`${this.Url}/mitarbeiter/delete/${id}`);
   }
 
-  saveMitarbeiter(mitarbeiter: Mitarbeiter){
+  saveMitarbeiter(mitarbeiter: Mitarbeiter) {
     return this.http.post(`${this.Url}/mitarbeiter/new/`, mitarbeiter);
   }
 
-  updateMitarbeiter(id: number, mitarbeiter: Mitarbeiter): Observable<Mitarbeiter>{
-    return this.http.put<Mitarbeiter>(`${this.Url}/mitarbeiter/edit/${mitarbeiter.id_mitarbeiter}`, mitarbeiter); 
+  updateMitarbeiter(
+    id: number,
+    mitarbeiter: Mitarbeiter
+  ): Observable<Mitarbeiter> {
+    return this.http.put<Mitarbeiter>(
+      `${this.Url}/mitarbeiter/edit/${mitarbeiter.id_mitarbeiter}`,
+      mitarbeiter
+    );
   }
-  
-  
 }

@@ -1,51 +1,68 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
-import { ServiceService } from '../../../Service/service.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, HostBinding } from "@angular/core";
+import { ServiceService } from "../../../Service/service.service";
+import { Router } from "@angular/router";
+import { Kunde } from "src/app/Models/Kunde";
 
 @Component({
-  selector: 'app-projekt-list',
-  templateUrl: './projekt-list.component.html',
-  styleUrls: ['./projekt-list.component.css']
+  selector: "app-projekt-list",
+  templateUrl: "./projekt-list.component.html",
+  styleUrls: ["./projekt-list.component.css"]
 })
 export class ProjektListComponent implements OnInit {
-
-  @HostBinding('class') classes = 'row';
+  @HostBinding("class") classes = "row";
 
   projekte: any = [];
- 
-  constructor(private service: ServiceService, private router: Router) { }
+  kunden: any = [];
+
+  constructor(private service: ServiceService, private router: Router) {}
 
   ngOnInit(): void {
-      this.getProjekts();
+    this.init();
   }
 
-  getProjekts(){
-    this.service.getProjekte().subscribe(
+  init() {
+    this.service.getKunden().subscribe(
       res => {
-        console.log(res);
-        this.projekte = res;
+        this.kunden = res;
+        this.service.getProjekte().subscribe(
+          res => {
+            for (let projekt of res) {
+              this.projekte.push(this.findKunde(projekt));
+            }
+
+            console.log(this.projekte);
+          },
+          err => console.error(err)
+        );
+        //console.log(this.projekte);
       },
       err => console.error(err)
-    )
+    );
   }
 
-  goToNewProjekt(){
+  findKunde(projekt) {
+    //console.log(this.kunden);
+    const kunde = this.kunden.filter(proj => {
+      return proj.id_kunde == projekt.kunde;
+    })[0];
+    //console.log(projekt_edit);
+    projekt.kunde = kunde;
+    return projekt;
+  }
+
+  goToNewProjekt() {
     this.router.navigate(["/prokekte/add"]);
   }
-  
-  deleteProjekt(id:number){
+
+  deleteProjekt(id: number) {
     this.service.deleteProjekt(id).subscribe(
-      res =>{
+      res => {
         console.log(res);
-        this.getProjekts;
+        //this.getProjekts;
       },
       err => console.error(err)
-    )
+    );
   }
 
-  editProjekt(id:number){
-    
-  }
- 
-
+  editProjekt(id: number) {}
 }
