@@ -3,7 +3,6 @@ import { Projekt } from "src/app/Models/Projekt";
 import { ActivatedRoute, Router } from "@angular/router";
 
 import { ServiceService } from "../../../Service/service.service";
-import { Kunde } from "src/app/Models/Kunde";
 
 @Component({
   selector: "app-projekt-add",
@@ -26,9 +25,7 @@ export class ProjektAddComponent implements OnInit {
     spatestes_enddat: new Date()
   };
 
-  id_k: number;
-
-  kunden: [];
+  kunden: any = [];
 
   edit: boolean = false;
 
@@ -64,22 +61,27 @@ export class ProjektAddComponent implements OnInit {
   saveNewProjekt() {
     delete this.projekt.id_projekt;
 
-    this.service.getKunde(this.id_k).subscribe(
+    const kunde = this.kunden.filter(kund => {
+      return kund.id_kunde == this.projekt.kunde;
+    })[0];
+
+    this.projekt.kunde = kunde;
+    //console.log(JSON.stringify(this.projekt));
+
+    this.service.saveProjekt(this.projekt).subscribe(
       res => {
-        this.projekt.kunde = res;
-        this.service.saveProjekt(this.projekt).subscribe(
-          res => {
-            console.log(JSON.stringify(this.projekt));
-            //this.router.navigate(["/projekte"]);
-          },
-          err => console.error(err)
-        );
+        this.router.navigate(["/projekte"]);
       },
       err => console.error(err)
     );
   }
 
   editProjekt() {
+    const kunde = this.kunden.filter(kund => {
+      return kund.id_kunde == this.projekt.kunde;
+    })[0];
+
+    this.projekt.kunde = kunde;
     this.service.updateProjekt(this.projekt.id_projekt, this.projekt).subscribe(
       res => {
         console.log(res);
@@ -88,5 +90,11 @@ export class ProjektAddComponent implements OnInit {
       err => console.error(err)
     );
     //console.log(this.projekt);
+  }
+
+  updatedate(event, typ: string) {
+    typ == "start"
+      ? (this.projekt.fruheste_stardat = new Date(event))
+      : (this.projekt.spatestes_enddat = new Date(event));
   }
 }
