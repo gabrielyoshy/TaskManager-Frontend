@@ -55,10 +55,15 @@ export class ProjektListComponent implements OnInit {
   }
 
   deleteProjekt(id: number) {
+    console.log(this.projekte);
+
     this.service.deleteProjekt(id).subscribe(
       res => {
-        console.log(res);
-        //this.getProjekts;
+        let pr = this.projekte.filter(e => {
+          return e.id_projekt !== id;
+        });
+
+        this.projekte = pr;
       },
       err => console.error(err)
     );
