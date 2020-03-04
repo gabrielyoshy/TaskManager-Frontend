@@ -41,8 +41,11 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTreeModule } from "@angular/material/tree";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
+  imports: [MatFormFieldModule],
   exports: [
     A11yModule,
     ClipboardModule,
@@ -86,7 +89,17 @@ import { MatTreeModule } from "@angular/material/tree";
     MatTooltipModule,
     MatTreeModule,
     PortalModule,
-    ScrollingModule
+    ScrollingModule,
+    MatButtonModule,
+    MatInputModule,
+    MatRippleModule,
+    FormsModule,
+    MatTableModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule {}
