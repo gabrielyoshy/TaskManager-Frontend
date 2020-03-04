@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material/dialog";
-//import { NeueAufgabe } from "./components/projekte/projekt-list/projekt-list.component";
+import { NeueAufgabe } from "./components/projekte/projekt-list/projekt-list.component";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -10,7 +10,11 @@ import { MatDialog } from "@angular/material/dialog";
 export class AppComponent {
   title = "TaskManager";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public dialog: MatDialog) {}
+
+  openDialog() {
+    this.dialog.open(NeueAufgabe);
+  }
 
   List() {
     this.router.navigate(["list"]);

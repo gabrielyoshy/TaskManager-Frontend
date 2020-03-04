@@ -2,10 +2,12 @@ import { Component, OnInit, HostBinding, Inject } from "@angular/core";
 import { ServiceService } from "../../../Service/service.service";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
 import {
   MatDialog,
   MatDialogRef,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
+  MatDialogConfig
 } from "@angular/material/dialog";
 
 export interface DialogData {
@@ -36,7 +38,8 @@ export class ProjektListComponent implements OnInit {
   constructor(
     private service: ServiceService,
     private router: Router,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -102,30 +105,49 @@ export class ProjektListComponent implements OnInit {
 
   editProjekt(id: number) {}
 
-  //Dialog Aufgabe
-  // openDialog(): void {
-  //   const dialogRef = this.dialog.open(NeueAufgabe, {
-  //     width: "250px",
-  //     data: { name: this.name, animal: this.animal }
-  //   });
+  openDialog() {
+    const dialogConfig = new MatDialogConfig();
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log("The dialog was closed");
-  //     this.animal = result;
-  //   });
-  // }
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      id: 1,
+      title: "Angular For Beginners"
+    };
+
+    this.dialog.open(NeueAufgabe, dialogConfig);
+  }
 }
 
-// @Component({
-//   selector: "neue-aufgabe",
-//   templateUrl: "neue-aufgabe.html"
-// })
-// export class NeueAufgabe {
-//   constructor(
-//     public dialogRef: MatDialogRef<NeueAufgabe>,
-//     @Inject(MAT_DIALOG_DATA) public data: DialogData
-//   ) {}
+@Component({
+  selector: "neue-aufgabe",
+  templateUrl: "neue-aufgabe.html",
+  styleUrls: ["neue-aufgabe.css"]
+})
+export class NeueAufgabe implements OnInit {
+  form: FormGroup;
+  description: string;
 
-//   onNoClick(): void {
-//     this.dialogRef.close();
-//   }
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<NeueAufgabe>,
+    @Inject(MAT_DIALOG_DATA) data
+  ) {
+    this.description = data.description;
+  }
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      description: [this.description, []]
+    });
+  }
+
+  save() {
+    this.dialogRef.close(this.form.value);
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+}

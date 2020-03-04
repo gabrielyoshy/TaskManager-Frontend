@@ -11,7 +11,10 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { KundeAddComponent } from "./components/kunde/kunde-add/kunde-add.component";
 import { KundeListComponent } from "./components/kunde/kunde-list/kunde-list.component";
 import { ProjektAddComponent } from "./components/projekte/projekt-add/projekt-add.component";
-import { ProjektListComponent } from "./components/projekte/projekt-list/projekt-list.component";
+import {
+  ProjektListComponent,
+  NeueAufgabe
+} from "./components/projekte/projekt-list/projekt-list.component";
 import { MitarbeiterAddComponent } from "./components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component";
 import { MitarbeiterListComponent } from "./components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component";
 import { SkillListComponent } from "./components/skills/skill-list/skill-list.component";
@@ -40,6 +43,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatStepperModule } from "@angular/material/stepper";
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -53,7 +57,8 @@ import { MatStepperModule } from "@angular/material/stepper";
     MitarbeiterListComponent,
     SkillListComponent,
     SkillAddComponent,
-    DashboardComponent
+    DashboardComponent,
+    NeueAufgabe
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,8 @@ import { MatStepperModule } from "@angular/material/stepper";
     MatFormFieldModule,
     MatInputModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatDialogModule
   ],
   providers: [
     ServiceService,
@@ -90,6 +96,7 @@ import { MatStepperModule } from "@angular/material/stepper";
     }
   ],
   exports: [MatButtonModule, MatFormFieldModule, MatInputModule],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [NeueAufgabe, ProjektListComponent]
 })
 export class AppModule {}
