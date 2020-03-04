@@ -11,6 +11,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
+<<<<<<< HEAD
       <mat-card-content>
         <p>
           {{ projekt.beschreibung }}
@@ -94,3 +95,25 @@
   <br />
   <br /><br /><br />
 </div>
+=======
+    <p class="card-text">
+      Frühesten Anfang:{{ projekt.fruheste_stardat | date: "dd MMMM yyyy" }}
+    </p>
+    <p class="card-text">
+      Spätestes Ende:{{ projekt.spatestes_enddat | date: "dd MMMM yyyy" }}
+    </p>
+    <a
+      [routerLink]="['/projekte/edit', projekt.id_projekt]"
+      class="btn btn-info btn-block"
+    >
+      EDIT
+    </a>
+  </div>
+</div>
+
+<div class="w-100"></div>
+
+<button class="btn btn-info" [routerLink]="['/projekte/add']">
+  Create
+</button>
+>>>>>>> parent of 4e6309d... antes de empezar a armar el dashboard
