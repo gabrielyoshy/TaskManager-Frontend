@@ -1,81 +1,77 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import { KundeListComponent } from "./components/kunde/kunde-list/kunde-list.component";
-import { KundeAddComponent } from "./components/kunde/kunde-add/kunde-add.component";
+import { KundeListComponent  } from './components/kunde/kunde-list/kunde-list.component';
+import { KundeAddComponent  } from './components/kunde/kunde-add/kunde-add.component';
 
-import { ProjektListComponent } from "./components/projekte/projekt-list/projekt-list.component";
-import { ProjektAddComponent } from "./components/projekte/projekt-add/projekt-add.component";
+import { ProjektListComponent  } from './components/projekte/projekt-list/projekt-list.component';
+import { ProjektAddComponent } from './components/projekte/projekt-add/projekt-add.component';
 
-import { SkillListComponent } from "./components/skills/skill-list/skill-list.component";
-import { SkillAddComponent } from "./components/skills/skill-add/skill-add.component";
+import { SkillListComponent  } from './components/skills/skill-list/skill-list.component';
+import { SkillAddComponent } from './components/skills/skill-add/skill-add.component';
 
-import { MitarbeiterListComponent } from "./components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component";
-import { MitarbeiterAddComponent } from "./components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component";
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { MitarbeiterListComponent  } from './components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component';
+import { MitarbeiterAddComponent } from './components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component';
 
 const routes: Routes = [
   {
-    path: "",
-    redirectTo: "projekte",
-    pathMatch: "full"
+    path: '',
+    redirectTo: 'projekte',
+    pathMatch: 'full'
   },
   {
-    path: "dashboard",
-    component: DashboardComponent
-  },
-  {
-    path: "projekte",
+    path: 'projekte',
     component: ProjektListComponent
   },
   {
-    path: "projekte/add",
+    path: 'projekte/add',
     component: ProjektAddComponent
   },
   {
-    path: "projekte/edit/:id",
+    path: 'projekte/edit/:id',
     component: ProjektAddComponent
   },
   {
-    path: "kunden",
+    path: 'kunden',
     component: KundeListComponent
   },
   {
-    path: "kunde/add",
+    path: 'kunde/add',
     component: KundeAddComponent
   },
   {
-    path: "kunde/edit/:id",
+    path: 'kunde/edit/:id',
     component: KundeAddComponent
   },
   {
-    path: "skill",
+    path: 'skill',
     component: SkillListComponent
   },
   {
-    path: "skill/add",
+    path: 'skill/add',
     component: SkillAddComponent
   },
   {
-    path: "skill/edit/:id",
+    path: 'skill/edit/:id',
     component: SkillAddComponent
   },
   {
-    path: "mitarbeiter",
+    path: 'mitarbeiter',
     component: MitarbeiterListComponent
   },
   {
-    path: "mitarbeiter/add",
+    path: 'mitarbeiter/add',
     component: MitarbeiterAddComponent
   },
   {
-    path: "mitarbeiter/edit/:id",
+    path: 'mitarbeiter/edit/:id',
     component: MitarbeiterAddComponent
   }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -1,6 +1,7 @@
 import { Component, OnInit, HostBinding, Inject } from "@angular/core";
 import { ServiceService } from "../../../Service/service.service";
 import { Router } from "@angular/router";
+<<<<<<< HEAD
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import {
   MatDialog,
@@ -12,6 +13,9 @@ export interface DialogData {
   animal: string;
   name: string;
 }
+=======
+import { Kunde } from "src/app/Models/Kunde";
+>>>>>>> parent of 4e6309d... antes de empezar a armar el dashboard
 
 @Component({
   selector: "app-projekt-list",
@@ -19,6 +23,7 @@ export interface DialogData {
   styleUrls: ["./projekt-list.component.css"]
 })
 export class ProjektListComponent implements OnInit {
+<<<<<<< HEAD
   //esto es para la prueba de las tareas
   isLinear = false;
   firstFormGroup: FormGroup;
@@ -28,6 +33,8 @@ export class ProjektListComponent implements OnInit {
   name: string;
 
   panelOpenState = false;
+=======
+>>>>>>> parent of 4e6309d... antes de empezar a armar el dashboard
   @HostBinding("class") classes = "row";
 
   projekte: any = [];
