@@ -1,24 +1,48 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" routerLink="/projekte">Task Manager</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" routerLink ="/kunden" routerLinkActive="active"><i class="fas fa-user-tie"></i> Kunde</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/projekte" routerLinkActive="active"><i class="fas fa-project-diagram"></i> Projekte</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/skills" routerLinkActive="active"><i class="fas fa-terminal"></i> Skills</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" routerLink="/mitarbeiter" routerLinkActive="active"><i class="fas fa-user-friends"></i> Mitarbeiter</a>
-              </li>
-          </ul>
-        </div>
-    </div>
-</nav>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard"
+        ><i class="material-icons">
+          dashboard
+        </i>
+        Dashboard</a
+      >
+      <a mat-list-item routerLink="/kunden"
+        ><i class="fas fa-user-tie"></i> Kunde</a
+      >
+      <a mat-list-item routerLink="/projekte"
+        ><i class="fas fa-project-diagram"></i> Projekte</a
+      >
+      <a mat-list-item routerLink="/mitarbeiter"
+        ><i class="fas fa-terminal"></i> Skills</a
+      >
+      <a mat-list-item routerLink="/skills"
+        ><i class="fas fa-user-friends"></i> Mitarbeiter</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>TaskManager</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

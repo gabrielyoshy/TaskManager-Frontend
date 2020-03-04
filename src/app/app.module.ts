@@ -1,7 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from "@angular/platform-browser";
+import { NgModule } from "@angular/core";
 
-<<<<<<< HEAD
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -42,27 +41,6 @@ import { MatInputModule } from "@angular/material/input";
 import { MatTableModule } from "@angular/material/table";
 
 import { MatFormFieldModule } from "@angular/material/form-field";
-=======
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
-import { ServiceService } from '../app/Service/service.service'
-import { HttpClientModule} from '@angular/common/http';
-
-
-
-
-import { NavigationComponent } from './components/navigation/navigation.component';
-import { KundeAddComponent } from './components/kunde/kunde-add/kunde-add.component';
-import { KundeListComponent } from './components/kunde/kunde-list/kunde-list.component';
-import { ProjektAddComponent } from './components/projekte/projekt-add/projekt-add.component';
-import { ProjektListComponent } from './components/projekte/projekt-list/projekt-list.component';
-import { MitarbeiterAddComponent } from './components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component';
-import { MitarbeiterListComponent } from './components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component';
-import { SkillListComponent } from './components/skills/skill-list/skill-list.component';
-import { SkillAddComponent } from './components/skills/skill-add/skill-add.component';
-
->>>>>>> parent of 4e6309d... antes de empezar a armar el dashboard
 
 @NgModule({
   declarations: [
@@ -75,14 +53,14 @@ import { SkillAddComponent } from './components/skills/skill-add/skill-add.compo
     MitarbeiterAddComponent,
     MitarbeiterListComponent,
     SkillListComponent,
-    SkillAddComponent
+    SkillAddComponent,
+    DashboardComponent
   ],
   entryComponents: [NeueAufgabe],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-<<<<<<< HEAD
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
@@ -111,11 +89,8 @@ import { SkillAddComponent } from './components/skills/skill-add/skill-add.compo
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: "fill" }
     }
-=======
-    HttpClientModule
->>>>>>> parent of 4e6309d... antes de empezar a armar el dashboard
   ],
   exports: [MatButtonModule, MatFormFieldModule, MatInputModule],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
