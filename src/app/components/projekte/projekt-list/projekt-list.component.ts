@@ -1,7 +1,6 @@
 import { Component, OnInit, HostBinding } from "@angular/core";
 import { ServiceService } from "../../../Service/service.service";
 import { Router } from "@angular/router";
-import { Kunde } from "src/app/Models/Kunde";
 
 @Component({
   selector: "app-projekt-list",
@@ -10,6 +9,8 @@ import { Kunde } from "src/app/Models/Kunde";
 })
 export class ProjektListComponent implements OnInit {
   @HostBinding("class") classes = "row";
+
+  panelOpenState = false;
 
   projekte: any = [];
   kunden: any = [];
