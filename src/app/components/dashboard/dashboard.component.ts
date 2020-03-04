@@ -20,7 +20,11 @@ export class DashboardComponent {
       }
 
       return [
-        { title: "Projekte", cols: 3, rows: 2 },
+        {
+          title: "Projekte",
+          cols: 3,
+          rows: 2
+        },
         { title: "Mitarbeiter", cols: 1, rows: 1 },
         { title: "Skills", cols: 1, rows: 1 }
       ];

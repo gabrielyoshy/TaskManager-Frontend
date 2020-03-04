@@ -1,70 +1,96 @@
-<div class="card" *ngFor="let projekt of projekte">
-  <div class="card-header">
-    <b>{{ projekt.name }} </b> -
-    {{ projekt.kunde.vorname + " " + projekt.kunde.nachname }}
-    <button class="btn btn-danger" (click)="deleteProjekt(projekt.id_projekt)">
-      <i class="fas fa-trash"></i>
-    </button>
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">{{ projekt.beschreibung }}</h5>
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let projekt of projekte">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ projekt.name }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ projekt.fruheste_stardat | date: "dd MMMM yyyy" }} -
+          {{ projekt.spatestes_enddat | date: "dd MMMM yyyy" }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <p class="card-text">
-      Frühesten Anfang:{{ projekt.fruheste_stardat | date: "dd MMMM yyyy" }}
-    </p>
-    <p class="card-text">
-      Spätestes Ende:{{ projekt.spatestes_enddat | date: "dd MMMM yyyy" }}
-    </p>
-    <a
-      [routerLink]="['/projekte/edit', projekt.id_projekt]"
-      class="btn btn-info btn-block"
-    >
-      EDIT
-    </a>
-  </div>
+      <mat-card-content>
+        <p>
+          {{ projekt.beschreibung }}
+        </p>
+      </mat-card-content>
+      <mat-horizontal-stepper labelPosition="bottom" #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Fill out your name</ng-template>
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input
+                matInput
+                placeholder="Last name, First name"
+                formControlName="firstCtrl"
+                required
+              />
+            </mat-form-field>
+            <div>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup" optional>
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Fill out your address</ng-template>
+            <mat-form-field>
+              <mat-label>Address</mat-label>
+              <input
+                matInput
+                formControlName="secondCtrl"
+                placeholder="Ex. 1 Main St, New York, NY"
+                required
+              />
+            </mat-form-field>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You are now done.</p>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+            <button mat-raised-button (click)="openDialog()">
+              Open Dialog
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+
+      <button
+        mat-icon-button
+        color="primary"
+        [routerLink]="['/projekte/edit', projekt.id_projekt]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="deleteProjekt(projekt.id_projekt)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <br />
+  <button mat-raised-button [routerLink]="['/projekte/add']" color="primary">
+    neues Projekt
+  </button>
+
+  <br /><br /><br />
+  <br />
+  <br /><br /><br />
+  <br />
+  <br /><br /><br />
+  <br />
+  <br /><br /><br />
 </div>
-
-<div class="w-100"></div>
-
-<button class="btn btn-info" [routerLink]="['/projekte/add']">
-  Create
-</button>
-
-<mat-slider min="1" max="100" step="1" value="1"></mat-slider>
-
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Personal data
-      </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1" />
-    </mat-form-field>
-  </mat-expansion-panel>
-  <mat-expansion-panel
-    (opened)="panelOpenState = true"
-    (closed)="panelOpenState = false"
-  >
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{ panelOpenState ? "open" : "closed" }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel>
-</mat-accordion>
