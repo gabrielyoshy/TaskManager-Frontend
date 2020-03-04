@@ -11,17 +11,13 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
 import { KundeAddComponent } from "./components/kunde/kunde-add/kunde-add.component";
 import { KundeListComponent } from "./components/kunde/kunde-list/kunde-list.component";
 import { ProjektAddComponent } from "./components/projekte/projekt-add/projekt-add.component";
-import {
-  ProjektListComponent,
-  NeueAufgabe
-} from "./components/projekte/projekt-list/projekt-list.component";
+import { ProjektListComponent } from "./components/projekte/projekt-list/projekt-list.component";
 import { MitarbeiterAddComponent } from "./components/mitarbeiter/mitarbeiter-add/mitarbeiter-add.component";
 import { MitarbeiterListComponent } from "./components/mitarbeiter/mitarbeiter-list/mitarbeiter-list.component";
 import { SkillListComponent } from "./components/skills/skill-list/skill-list.component";
 import { SkillAddComponent } from "./components/skills/skill-add/skill-add.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
-import { MaterialModule } from "./material.module";
 import { LayoutModule } from "@angular/cdk/layout";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
@@ -42,6 +38,9 @@ import { MatTableModule } from "@angular/material/table";
 
 import { MatFormFieldModule } from "@angular/material/form-field";
 
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatStepperModule } from "@angular/material/stepper";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,14 +55,12 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     SkillAddComponent,
     DashboardComponent
   ],
-  entryComponents: [NeueAufgabe],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -81,7 +78,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatExpansionModule,
+    MatStepperModule
   ],
   providers: [
     ServiceService,

@@ -36,8 +36,7 @@ export class ProjektListComponent implements OnInit {
   constructor(
     private service: ServiceService,
     private router: Router,
-    private _formBuilder: FormBuilder,
-    public dialog: MatDialog
+    private _formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -117,17 +116,16 @@ export class ProjektListComponent implements OnInit {
   // }
 }
 
-@Component({
-  selector: "neue-aufgabe",
-  templateUrl: "neue-aufgabe.html"
-})
-export class NeueAufgabe {
-  constructor(
-    public dialogRef: MatDialogRef<NeueAufgabe>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {}
+// @Component({
+//   selector: "neue-aufgabe",
+//   templateUrl: "neue-aufgabe.html"
+// })
+// export class NeueAufgabe {
+//   constructor(
+//     public dialogRef: MatDialogRef<NeueAufgabe>,
+//     @Inject(MAT_DIALOG_DATA) public data: DialogData
+//   ) {}
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
+//   onNoClick(): void {
+//     this.dialogRef.close();
+//   }
