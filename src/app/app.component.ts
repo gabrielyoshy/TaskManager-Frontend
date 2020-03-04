@@ -1,26 +1,22 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { MatDialog } from "@angular/material/dialog";
-import { NeueAufgabe } from "./components/projekte/projekt-list/projekt-list.component";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = "TaskManager";
+  title = 'TaskManager';
 
-  constructor(private router: Router, public dialog: MatDialog) {}
-
-  openDialog() {
-    this.dialog.open(NeueAufgabe);
-  }
-
-  List() {
+  constructor(private router:Router){}
+  
+  List(){
     this.router.navigate(["list"]);
   }
 
-  New() {
+  New(){
     this.router.navigate(["add"]);
   }
+  
 }
