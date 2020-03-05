@@ -3,64 +3,57 @@
     <mat-expansion-panel *ngFor="let projekt of projekte">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{ projekt.name }}
+          <b>{{ projekt.name }}</b>
+          --
+          {{ projekt.kunde.nachname }}
         </mat-panel-title>
         <mat-panel-description>
           {{ projekt.fruheste_stardat | date: "dd MMMM yyyy" }} -
           {{ projekt.spatestes_enddat | date: "dd MMMM yyyy" }}
         </mat-panel-description>
       </mat-expansion-panel-header>
-
       <mat-card-content>
         <p>
           {{ projekt.beschreibung }}
         </p>
       </mat-card-content>
       <mat-horizontal-stepper labelPosition="bottom" #stepper>
-        <mat-step [stepControl]="firstFormGroup">
+        <mat-step
+          *ngFor="let aufgabe of projekt.aufgaben"
+          [stepControl]="firstFormGroup"
+        >
           <form [formGroup]="firstFormGroup">
-            <ng-template matStepLabel>Fill out your name</ng-template>
-            <mat-form-field>
-              <mat-label>Name</mat-label>
-              <input
-                matInput
-                placeholder="Last name, First name"
-                formControlName="firstCtrl"
-                required
-              />
-            </mat-form-field>
+            <ng-template matStepLabel>{{ aufgabe.name }}</ng-template>
+            <mat-card>
+              Beschreibung: {{ aufgabe.beschreibung }} <br />
+              Aufwandsschätzung: {{ aufgabe.geschatzter_aufwand }} <br />
+              beginnt: {{ aufgabe.beginnt | date: "yyyy-MM-dd" }} <br />
+              endet: {{ aufgabe.endet | date: "yyyy-MM-dd" }} <br />
+              skill: {{ aufgabe.skill.name }}<br />
+              <button>
+                <mat-icon
+                  (click)="
+                    deleteAufgabe(projekt.id_projekt, aufgabe.id_aufgabe)
+                  "
+                  >delete</mat-icon
+                >
+              </button>
+              <button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-card>
+
             <div>
               <button mat-button matStepperNext>Next</button>
             </div>
           </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup" optional>
-          <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-            <mat-form-field>
-              <mat-label>Address</mat-label>
-              <input
-                matInput
-                formControlName="secondCtrl"
-                placeholder="Ex. 1 Main St, New York, NY"
-                required
-              />
-            </mat-form-field>
-            <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
-            </div>
-          </form>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Done</ng-template>
-          <p>You are now done.</p>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-          </div>
         </mat-step>
       </mat-horizontal-stepper>
+      <!-- hier ist ein Aufruf zum Dialog-->
+
+      <button mat-raised-button (click)="openDialog(projekt.id_projekt)">
+        Neue Aufgabe
+      </button>
 
       <button
         mat-icon-button
@@ -82,21 +75,6 @@
   <button mat-raised-button [routerLink]="['/projekte/add']" color="primary">
     neues Projekt
   </button>
-
-  <ol>
-    <li>
-      <mat-form-field>
-        <mat-label>What's your name?</mat-label>
-        <input matInput [(ngModel)]="name" />
-      </mat-form-field>
-    </li>
-    <li>
-      <button mat-raised-button (click)="openDialog()">Pick one</button>
-    </li>
-    <li *ngIf="animal">
-      You chose: <i>{{ animal }}</i>
-    </li>
-  </ol>
 
   <br /><br /><br />
   <br />

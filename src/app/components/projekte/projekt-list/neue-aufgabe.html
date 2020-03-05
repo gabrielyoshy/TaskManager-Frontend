@@ -1,17 +1,66 @@
-<h2 mat-dialog-title>{{description}}</h2>
+<h1 mat-dialog-title>Neue Aufgabe</h1>
+<div mat-dialog-content>
+  <p>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="data.name" />
+    </mat-form-field>
+  </p>
 
-<mat-dialog-content [formGroup]="form">
   <mat-form-field>
+    <mat-label>Personentagen</mat-label>
     <input
+      type="number"
       matInput
-      placeholder="Course Description"
-      formControlName="description"
+      [(ngModel)]="data.aufwandsschatzung"
+      (change)="calcularFecha(data.aufwandsschatzung, data.beginnt )"
     />
   </mat-form-field>
-  ....
-</mat-dialog-content>
+  <p>
+    <mat-form-field>
+      <mat-label>beginnt</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker1"
+        [min]="data.minDate"
+        [(ngModel)]="data.beginnt"
+        (change)="calcularFecha(data.aufwandsschatzung, data.beginnt )"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field>
+      <mat-label>endet</mat-label>
+      <input
+        matInput
+        disabled
+        [matDatepicker]="picker"
+        [(ngModel)]="data.endet"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field>
+      <mat-label>Beschreibung</mat-label>
+      <textarea matInput [(ngModel)]="data.beschreibung"></textarea>
+    </mat-form-field>
+  </p>
 
-<mat-dialog-actions>
-  <button class="mat-raised-button" (click)="close()">Close</button>
-  <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
-</mat-dialog-actions>
+  <p>
+    <mat-form-field>
+      <mat-label>erforderliches skill</mat-label>
+      <input matInput [(ngModel)]="data.skill" />
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+    Ok
+  </button>
+</div>

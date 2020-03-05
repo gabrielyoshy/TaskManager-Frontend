@@ -44,6 +44,9 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatStepperModule } from "@angular/material/stepper";
 import { MatDialogModule } from "@angular/material/dialog";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatSelectModule } from "@angular/material/select";
+import { MatSliderModule } from "@angular/material/slider";
 
 @NgModule({
   declarations: [
@@ -86,7 +89,10 @@ import { MatDialogModule } from "@angular/material/dialog";
     MatInputModule,
     MatExpansionModule,
     MatStepperModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatSliderModule
   ],
   providers: [
     ServiceService,

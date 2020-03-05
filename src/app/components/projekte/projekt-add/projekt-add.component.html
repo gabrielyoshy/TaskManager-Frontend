@@ -1,68 +1,73 @@
-<div class="col-md-4 offset-md-4">
-  <div class="card">
-    <div class="card-body">
-      <form>
-        <div class="form-group">
-          <input
-            type="text"
-            name="name"
-            [(ngModel)]="projekt.name"
-            placeholder="Name"
-            class="form-control"
-            autofocus
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="text"
-            name="beschreibung"
-            [(ngModel)]="projekt.beschreibung"
-            placeholder="Beschreibung"
-            class="form-control"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="date"
-            name="fruheste_stardat"
-            [ngModel]="projekt.fruheste_stardat | date: 'yyyy-MM-dd'"
-            class="form-control"
-            (ngModelChange)="updatedate($event, 'start')"
-            placeholder="fruheste_stardat"
-            #dateF="ngModel"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            type="date"
-            name="spatestes_enddat"
-            [ngModel]="projekt.spatestes_enddat | date: 'yyyy-MM-dd'"
-            class="form-control"
-            (ngModelChange)="updatedate($event, 'end')"
-            placeholder="spatestes_enddat"
-            #dateS="ngModel"
-          />
-        </div>
-        <!--Kunden-->
-        <select
+<mat-card>
+  <form class="form">
+    <p>
+      <mat-form-field>
+        <mat-label>Name des Projekts:</mat-label>
+        <input matInput name="name" [(ngModel)]="projekt.name" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Beschreibung</mat-label>
+        <textarea
+          matInput
+          name="beschreibung"
+          [(ngModel)]="projekt.beschreibung"
+        ></textarea>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>frühere Start:</mat-label>
+        <input
+          matInput
+          name="fruheste_stardat"
+          [ngModel]="projekt.fruheste_stardat | date: 'yyyy-MM-dd'"
+          [matDatepicker]="picker1"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>spätestes Ende:</mat-label>
+        <input
+          matInput
+          name="spatestes_enddat"
+          [ngModel]="projekt.spatestes_enddat | date: 'yyyy-MM-dd'"
+          [matDatepicker]="picker2"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Es gehört dem Kunden</mat-label>
+        <mat-select
           name="kunde"
           [(ngModel)]="projekt.kunde"
           [ngModelOptions]="{ standalone: true }"
-          class="custom-select mr-sm-2"
-          id="inlineFormCustomSelect"
         >
-          <option *ngFor="let kunde of kunden" [value]="kunde.id_kunde">{{
-            kunde.vorname + " " + kunde.nachname
-          }}</option>
-        </select>
-
-        <button
-          class="btn btn-success btn-block"
-          (click)="edit ? editProjekt() : saveNewProjekt()"
-        >
-          Save
-        </button>
-      </form>
-    </div>
-  </div>
-</div>
+          <mat-option *ngFor="let kunde of kunden" [value]="kunde.id_kunde">
+            {{ kunde.vorname + " " + kunde.nachname }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <button
+      mat-raised-button
+      (click)="edit ? editProjekt() : saveNewProjekt()"
+      color="primary"
+    >
+      Create
+    </button>
+  </form>
+</mat-card>
