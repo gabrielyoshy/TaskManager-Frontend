@@ -1,1 +1,54 @@
-<p>skill-add works!</p>
+<mat-card>
+  <form class="form">
+    <p>
+      <mat-form-field>
+        <mat-label>Name:</mat-label>
+        <input matInput name="name" [(ngModel)]="skill.name" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Beschreibung:</mat-label>
+        <textarea
+          matInput
+          name="beschreibung"
+          [(ngModel)]="skill.beschreibung"
+        ></textarea>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Level:</mat-label>
+        <mat-select
+          name="level"
+          [(ngModel)]="skill.level"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          <mat-option value="Junior">
+            Junior
+          </mat-option>
+          <mat-option value="Semi_Senior">
+            Semi-senior
+          </mat-option>
+          <mat-option value="Senior">
+            Senior
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Image:</mat-label>
+        <input matInput name="image" [(ngModel)]="skill.image" />
+      </mat-form-field>
+    </p>
+    <p></p>
+    <button
+      mat-raised-button
+      (click)="edit ? editSkill() : saveNewSkill()"
+      color="primary"
+    >
+      Save
+    </button>
+  </form>
+</mat-card>

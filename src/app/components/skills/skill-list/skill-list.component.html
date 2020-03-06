@@ -1,1 +1,28 @@
-<p>skill-list works!</p>
+<div class="container">
+  <mat-card *ngFor="let skill of skills" class="example-card">
+    <mat-card-header>
+      <div
+        mat-card-avatar
+        [ngStyle]="{ 'background-image': 'url(' + skill.image + ')' }"
+        class="example-header-image"
+      ></div>
+      <mat-card-title>{{ skill.name }}</mat-card-title>
+      <mat-card-subtitle>{{ skill.level }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        {{ skill.beschreibung }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button [routerLink]="['/skill/edit', skill.id_skill]">
+        Edit
+      </button>
+
+      <button mat-button (click)="deleteSkill(skill.id_skill)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<button mat-raised-button [routerLink]="['/skill/add']" color="primary">
+  Create
+</button>

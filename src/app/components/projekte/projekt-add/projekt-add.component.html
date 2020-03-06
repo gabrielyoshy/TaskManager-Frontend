@@ -22,7 +22,7 @@
         <input
           matInput
           name="fruheste_stardat"
-          [ngModel]="projekt.fruheste_stardat | date: 'yyyy-MM-dd'"
+          [(ngModel)]="projekt.fruheste_stardat"
           [matDatepicker]="picker1"
         />
         <mat-datepicker-toggle
@@ -38,7 +38,7 @@
         <input
           matInput
           name="spatestes_enddat"
-          [ngModel]="projekt.spatestes_enddat | date: 'yyyy-MM-dd'"
+          [(ngModel)]="projekt.spatestes_enddat"
           [matDatepicker]="picker2"
         />
         <mat-datepicker-toggle
@@ -67,7 +67,7 @@
       (click)="edit ? editProjekt() : saveNewProjekt()"
       color="primary"
     >
-      Create
+      Save
     </button>
   </form>
 </mat-card>

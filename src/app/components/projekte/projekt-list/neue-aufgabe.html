@@ -23,6 +23,7 @@
         matInput
         [matDatepicker]="picker1"
         [min]="data.minDate"
+        [max]="data.maxDate"
         [(ngModel)]="data.beginnt"
         (change)="calcularFecha(data.aufwandsschatzung, data.beginnt )"
       />
@@ -52,8 +53,17 @@
 
   <p>
     <mat-form-field>
-      <mat-label>erforderliches skill</mat-label>
-      <input matInput [(ngModel)]="data.skill" />
+      <mat-label>Skill</mat-label>
+      <mat-select
+        name="skill"
+        [(ngModel)]="data.skill"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <mat-option *ngFor="let skill of data.skills" [value]="skill.id_skill">
+          <img with="30" height="30" src="{{skill.image}}" />
+          {{ skill.name + " " + skill.level }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </p>
 </div>

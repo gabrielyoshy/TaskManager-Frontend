@@ -1,0 +1,14 @@
+.mat-card {
+  width: 400px;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  position: absolute;
+  top: 20%;
+  left: 35%;
+}
+
+.mat-form-field {
+  text-align: left;
+  width: 400px;
+}

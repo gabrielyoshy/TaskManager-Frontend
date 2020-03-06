@@ -11,7 +11,8 @@ import {
 import { Aufgabe } from "src/app/Models/Aufgabe";
 import { Projekt } from "src/app/Models/Projekt";
 import { Skill } from "src/app/Models/Skill";
-import { findIndex } from "rxjs/operators";
+import { findIndex, min } from "rxjs/operators";
+import { ProjektAddComponent } from "../projekt-add/projekt-add.component";
 
 export interface DialogData {
   gewahltes_projekt: number;
@@ -22,6 +23,8 @@ export interface DialogData {
   endet: Date;
   skill: number;
   minDate: Date;
+  maxDate: Date;
+  skills: [];
 }
 
 @Component({
@@ -172,7 +175,7 @@ export class ProjektListComponent implements OnInit {
     aufgabe.skill = new Skill();
     aufgabe.skill.id_skill = data.skill;
 
-    console.log(JSON.stringify(aufgabe));
+    //console.log(JSON.stringify(aufgabe));
 
     this.service.saveAufgabe(aufgabe).subscribe(
       res => {
@@ -211,23 +214,45 @@ export class ProjektListComponent implements OnInit {
     );
   }
 
-  openDialog(projekt_id: number): void {
+  openDialog(projekt: Projekt): void {
+    let fruhestenDate: Date;
+    let maxDate: Date;
+
+    /**
+     * Hier prüfen Sie, ob das Projekt irgendwelche Aufgaben hat. In diesem Fall wird das nächste Startdatum einen Tag nach dessen Ende liegen. Andernfalls ist das Startdatum das des Projekts.
+     * (24 * 60 * 60 * 1000) = 1 tag in Milisekunden
+     */
+
+    let index = this.getIndexProjekt(projekt.id_projekt);
+    let cant_aufgaben = this.projekte[index].aufgaben.length;
+
+    if (cant_aufgaben === 0) {
+      fruhestenDate = new Date(projekt.fruheste_stardat);
+    } else {
+      let aux = new Date(
+        this.projekte[index].aufgaben[cant_aufgaben - 1].endet
+      );
+      fruhestenDate = new Date(aux.getTime() + 24 * 60 * 60 * 1000);
+    }
+
     const dialogRef = this.dialog.open(NeueAufgabe, {
       data: {
-        gewahltes_projekt: projekt_id,
+        gewahltes_projekt: projekt.id_projekt,
         name: this.name,
         beschreibung: this.beschreibung,
         aufwandsschatzung: this.aufwandsschatzung,
-        beginnt: new Date(),
+        beginnt: fruhestenDate,
         endet: this.endet,
         skill: this.skill,
-        minDate: new Date()
+        minDate: fruhestenDate,
+        maxDate: new Date(projekt.spatestes_enddat),
+        skills: this.skills
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(JSON.stringify(result));
-      this.saveNewAufgabe(result);
+      result ? this.saveNewAufgabe(result) : console.log("Kein result");
     });
   }
 }
