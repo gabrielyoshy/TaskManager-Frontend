@@ -47,6 +47,8 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from "@angular/material/slider";
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   declarations: [
@@ -92,7 +94,9 @@ import { MatSliderModule } from "@angular/material/slider";
     MatDialogModule,
     MatDatepickerModule,
     MatSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    DragDropModule,
+    MatChipsModule
   ],
   providers: [
     ServiceService,

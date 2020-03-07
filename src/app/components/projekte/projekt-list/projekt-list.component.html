@@ -25,24 +25,41 @@
         >
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>{{ aufgabe.name }}</ng-template>
-            <mat-card>
-              Beschreibung: {{ aufgabe.beschreibung }} <br />
-              Aufwandsschätzung: {{ aufgabe.geschatzter_aufwand }} <br />
-              beginnt: {{ aufgabe.beginnt | date: "yyyy-MM-dd" }} <br />
-              endet: {{ aufgabe.endet | date: "yyyy-MM-dd" }} <br />
-              skill: {{ aufgabe.skill.name }}<br />
-              <button>
-                <mat-icon
-                  (click)="
-                    deleteAufgabe(projekt.id_projekt, aufgabe.id_aufgabe)
-                  "
-                  >delete</mat-icon
-                >
-              </button>
-              <button>
-                <mat-icon>edit</mat-icon>
-              </button>
-            </mat-card>
+            <div class="princip">
+              <mat-card>
+                <mat-card-header>
+                  <img with="30" height="30" src="{{ aufgabe.skill.image }}" />
+                  <mat-card-title>{{ aufgabe.skill.name }}</mat-card-title>
+                  <mat-card-subtitle>{{
+                    aufgabe.skill.level
+                  }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>{{ aufgabe.beschreibung }}</p>
+                  <b
+                    >Aufwand in Personentagen:
+                    {{ aufgabe.geschatzter_aufwand }}</b
+                  >
+                  <br />
+                  beginnt: {{ aufgabe.beginnt | date: "yyyy-MM-dd" }} <br />
+                  endet: {{ aufgabe.endet | date: "yyyy-MM-dd" }} <br />
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-stroked-button color="primary">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-stroked-button color="primary">
+                    <mat-icon
+                      (click)="
+                        deleteAufgabe(projekt.id_projekt, aufgabe.id_aufgabe)
+                      "
+                      >delete</mat-icon
+                    >
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+            <div class="segundo"></div>
 
             <div>
               <button mat-button matStepperNext>Next</button>

@@ -13,3 +13,8 @@
   flex-grow: 2;
   justify-content: end;
 }
+
+.princip {
+  background-color: lightseagreen;
+  width: 200px;
+}

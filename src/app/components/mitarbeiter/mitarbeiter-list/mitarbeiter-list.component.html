@@ -1,1 +1,49 @@
-<p>mitarbeiterasdst works!</p>
+<div class="container">
+  <div class="list_cards">
+    <mat-card *ngFor="let mitarbeite of mitarbeiter" class="card">
+      <mat-card-header>
+        <div
+          mat-card-avatar
+          [ngStyle]="{ 'background-image': 'url(' + mitarbeite.image + ')' }"
+          class="example-header-image"
+        ></div>
+        <mat-card-title>{{ mitarbeite.vorname }}</mat-card-title>
+        <mat-card-subtitle>{{ mitarbeite.nachname }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip *ngFor="let skill of mitarbeite.skill"
+            ><img class="img-chip" src="{{ skill.image }}" />{{
+              skill.name + "-" + skill.level
+            }}</mat-chip
+          >
+        </mat-chip-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-button
+          [routerLink]="['/mitarbeiter/edit', mitarbeite.id_mitarbeiter]"
+        >
+          Edit
+        </button>
+
+        <button
+          mat-button
+          (click)="deleteMitarbeiter(mitarbeite.id_mitarbeiter)"
+        >
+          Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <button
+    mat-raised-button
+    [routerLink]="['/mitarbeiter/add']"
+    color="primary"
+    class="button"
+  >
+    Create
+  </button>
+</div>
