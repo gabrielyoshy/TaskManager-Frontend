@@ -13,6 +13,8 @@ import { Projekt } from "src/app/Models/Projekt";
 import { Skill } from "src/app/Models/Skill";
 import { AufgabenMitarbeiter } from "src/app/Models/AufgabenMitarbeiter";
 import { JsonPipe } from "@angular/common";
+import { NeuerTeil } from "./neuer-teil";
+import { Mitarbeiter } from "src/app/Models/Mitarbeiter";
 
 export interface DialogData {
   gewahltes_projekt: number;
@@ -302,8 +304,8 @@ export class ProjektListComponent implements OnInit {
     });
   }
 
-  async aufgabeEinfugen(projekt: Projekt, aufgabe: Aufgabe) {
-    // Erster Teil
+  aufgabeEinfugen(projekt: Projekt, aufgabe: Aufgabe) {
+    // // Erster Teil
     let teil = new AufgabenMitarbeiter();
     let idAufgabe = new Aufgabe();
     idAufgabe.id_aufgabe = aufgabe.id_aufgabe;
@@ -312,27 +314,49 @@ export class ProjektListComponent implements OnInit {
     teil.bis = aufgabe.endet;
     teil.aufgabe = idAufgabe;
 
-    //aus dem zweiten Teil
+    // //aus dem zweiten Teil
     if (aufgabe.teile.length > 0) {
       let indexTeil = aufgabe.teile.length;
-      console.log(aufgabe);
+      ////   console.log(aufgabe);
       let letzterTag = new Date(aufgabe.teile[indexTeil - 1].bis);
       teil.ab = new Date(letzterTag.getTime() + 24 * 60 * 60 * 1000);
     }
 
-    // console.log(aufgabe.teile.length);
-    let indexPr = await this.getIndexProjekt(projekt.id_projekt);
-    let indexAufgabe = await this.getIndexAufgabe(indexPr, aufgabe.id_aufgabe);
-    // console.log(indexPr + "proj");
+    // // console.log(aufgabe.teile.length);
 
-    console.log(JSON.stringify(teil));
+    // // console.log(indexPr + "proj");
 
-    this.service.saveAufgabeMitarbeiter(teil).subscribe(result => {
-      console.log(result);
-      this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(teil);
+    // console.log(JSON.stringify(teil));
+
+    const dialogRef = this.dialog.open(NeuerTeil, {
+      data: {
+        teil: teil,
+        mitarbeiters: this.mitarbeiters,
+        minAb: new Date(teil.ab),
+        maxBis: new Date(teil.bis)
+      }
     });
 
-    //console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
+    dialogRef.afterClosed().subscribe(async result => {
+      //console.log(result);
+      if (result) {
+        let indexPr = await this.getIndexProjekt(projekt.id_projekt);
+        let indexAufgabe = await this.getIndexAufgabe(
+          indexPr,
+          aufgabe.id_aufgabe
+        );
+        let mitarbeiter = new Mitarbeiter();
+        mitarbeiter.id_mitarbeiter = result.mitarbeiter;
+        teil.mitarbeiter = mitarbeiter;
+        this.service.saveAufgabeMitarbeiter(teil).subscribe(result => {
+          console.log(JSON.stringify(teil));
+          this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(teil);
+        });
+
+        console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
+      }
+      //result ? this.saveNewAufgabe(result) : console.log("Kein result");
+    });
   }
 }
 

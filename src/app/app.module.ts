@@ -49,6 +49,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSliderModule } from "@angular/material/slider";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatChipsModule } from "@angular/material/chips";
+import { NeuerTeil } from "./components/projekte/projekt-list/neuer-teil";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { MatChipsModule } from "@angular/material/chips";
     SkillListComponent,
     SkillAddComponent,
     DashboardComponent,
-    NeueAufgabe
+    NeueAufgabe,
+    NeuerTeil
   ],
   imports: [
     BrowserModule,
@@ -107,6 +109,6 @@ import { MatChipsModule } from "@angular/material/chips";
   ],
   exports: [MatButtonModule, MatFormFieldModule, MatInputModule],
   bootstrap: [AppComponent],
-  entryComponents: [NeueAufgabe, ProjektListComponent]
+  entryComponents: [NeuerTeil, NeueAufgabe, ProjektListComponent]
 })
 export class AppModule {}
