@@ -14,7 +14,18 @@
   justify-content: end;
 }
 
-.princip {
-  background-color: lightseagreen;
+.card-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px 20px;
+  justify-content: flex-start;
+  align-content: space-between;
+  align-items: baseline;
+}
+
+.mat-card {
   width: 200px;
+  height: 230px;
+  margin: 20px 10px;
 }

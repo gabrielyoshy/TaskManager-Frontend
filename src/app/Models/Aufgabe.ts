@@ -10,4 +10,5 @@ export class Aufgabe {
   endet?: Date;
   skill: Skill;
   projekt: Projekt;
+  teile: any = [];
 }

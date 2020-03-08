@@ -11,8 +11,6 @@ import {
 import { Aufgabe } from "src/app/Models/Aufgabe";
 import { Projekt } from "src/app/Models/Projekt";
 import { Skill } from "src/app/Models/Skill";
-import { findIndex, min } from "rxjs/operators";
-import { ProjektAddComponent } from "../projekt-add/projekt-add.component";
 
 export interface DialogData {
   gewahltes_projekt: number;
@@ -53,6 +51,8 @@ export class ProjektListComponent implements OnInit {
   aufgaben: any = [];
   skills: any = [];
   kunden: any = [];
+  aufgabenMitarbeiter: any = [];
+  mitarbeiters: any = [];
 
   constructor(
     private service: ServiceService,
@@ -95,17 +95,53 @@ export class ProjektListComponent implements OnInit {
     } catch (error) {
       throw new Error(`skills error`);
     }
+    //mitarbeiters
+    try {
+      await this.service.getMitarbeiter().subscribe(
+        res => {
+          this.mitarbeiters = res;
+        },
+        err => console.error(err)
+      );
+    } catch (error) {
+      throw new Error(`skills error`);
+    }
+    //aufgaben-Mitarbeiter
+    try {
+      await this.service.getAufgabenMitarbeiter().subscribe(
+        res => {
+          this.aufgabenMitarbeiter = res;
+        },
+        err => console.error(err)
+      );
+    } catch (error) {
+      throw new Error(`skills error`);
+    }
     //Aufgaben
     try {
       await this.service.getAufgaben().subscribe(
         res => {
           for (let aufgabe of res) {
-            const skill = this.skills.filter(cons => {
-              return cons.id_skill == aufgabe.skill;
+            //skill -> aufgabe
+            const skill = this.skills.filter(e => {
+              return e.id_skill == aufgabe.skill;
             })[0];
-            //console.log(projekt_edit);
             aufgabe.skill = skill;
+            //teilen -> aufgabe
+            const ohneMitarbeiter = this.aufgabenMitarbeiter.filter(e => {
+              return e.aufgabe == aufgabe.id_aufgabe;
+            });
+            //mitarbeiter--->teil
+            let mitMitarbeiter = [];
+            for (let teil of ohneMitarbeiter) {
+              const mitarbeiter = this.mitarbeiters.filter(e => {
+                return (e.id_mitarbeiter = teil.mitarbeiter);
+              });
+              mitMitarbeiter.push(mitarbeiter);
+            }
+            aufgabe.teile = mitMitarbeiter;
             this.aufgaben.push(aufgabe);
+            //console.log(aufgabe.teile);
           }
         },
         err => console.error(err)
@@ -197,6 +233,17 @@ export class ProjektListComponent implements OnInit {
     return index;
   }
 
+  getIndexAufgabe(indexPr, id_aufgabe) {
+    var index = -1;
+
+    this.projekte[indexPr].aufgaben.filter(function(aufgabe, i) {
+      if (aufgabe.id_aufgabe === id_aufgabe) {
+        index = i;
+      }
+    });
+    return index;
+  }
+
   deleteAufgabe(id_projekt: number, id_aufgabe: number) {
     //console.log(this.projekte);
 
@@ -254,6 +301,21 @@ export class ProjektListComponent implements OnInit {
       console.log(JSON.stringify(result));
       result ? this.saveNewAufgabe(result) : console.log("Kein result");
     });
+  }
+
+  async aufgabeEinfugen(projekt: Projekt, aufgabe: Aufgabe) {
+    let x = {
+      nombre: "asdasdasd",
+      fecha_inicio: aufgabe.beginnt,
+      fecha_fin: aufgabe.endet
+    };
+
+    let indexPr = await this.getIndexProjekt(projekt.id_projekt);
+    let indexAufgabe = await this.getIndexAufgabe(indexPr, aufgabe.id_aufgabe);
+    console.log(indexPr + "proj");
+    console.log(indexAufgabe);
+    this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(x);
+    console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
   }
 }
 

@@ -7,6 +7,7 @@ import { Projekt } from "../Models/Projekt";
 import { Kunde } from "../Models/Kunde";
 import { Mitarbeiter } from "../Models/Mitarbeiter";
 import { Aufgabe } from "../Models/Aufgabe";
+import { AufgabenMitarbeiter } from "../Models/AufgabenMitarbeiter";
 
 @Injectable({
   providedIn: "root"
@@ -137,6 +138,36 @@ export class ServiceService {
     return this.http.put<Aufgabe>(
       `${this.Url}/aufgabe/edit/${aufgabe.id_aufgabe}`,
       aufgabe
+    );
+  }
+
+  /* Interface mit AufgabenMitarbeiter*/
+  getAufgabenMitarbeiter() {
+    return this.http.get<any>(`${this.Url}/aufgabe_mitarbeiter/list`);
+  }
+
+  getAufgabeMitarbeiter(id: number) {
+    return this.http.get<Aufgabe>(`${this.Url}/aufgabe_mitarbeiter/list/${id}`);
+  }
+
+  deleteAufgabeMitarbeiter(id: number) {
+    return this.http.delete(`${this.Url}/aufgabe_mitarbeiter/delete/${id}`);
+  }
+
+  saveAufgabeMitarbeiter(aufgabe_mitarbeiter: AufgabenMitarbeiter) {
+    return this.http.post(
+      `${this.Url}/aufgabe_mitarbeiter/new/`,
+      aufgabe_mitarbeiter
+    );
+  }
+
+  updateAufgabeMitarbeiter(
+    id: number,
+    aufgabe_mitarbeiter: AufgabenMitarbeiter
+  ): Observable<AufgabenMitarbeiter> {
+    return this.http.put<AufgabenMitarbeiter>(
+      `${this.Url}/aufgabe/edit/${aufgabe_mitarbeiter.id_aufgab_mitarb}`,
+      aufgabe_mitarbeiter
     );
   }
 }
