@@ -11,6 +11,8 @@ import {
 import { Aufgabe } from "src/app/Models/Aufgabe";
 import { Projekt } from "src/app/Models/Projekt";
 import { Skill } from "src/app/Models/Skill";
+import { AufgabenMitarbeiter } from "src/app/Models/AufgabenMitarbeiter";
+import { JsonPipe } from "@angular/common";
 
 export interface DialogData {
   gewahltes_projekt: number;
@@ -107,16 +109,10 @@ export class ProjektListComponent implements OnInit {
       throw new Error(`skills error`);
     }
     //aufgaben-Mitarbeiter
-    try {
-      await this.service.getAufgabenMitarbeiter().subscribe(
-        res => {
-          this.aufgabenMitarbeiter = res;
-        },
-        err => console.error(err)
-      );
-    } catch (error) {
-      throw new Error(`skills error`);
-    }
+
+    this.aufgabenMitarbeiter = await this.service.getAufgabenMitarbeiter();
+    //console.log(this.aufgabenMitarbeiter);
+
     //Aufgaben
     try {
       await this.service.getAufgaben().subscribe(
@@ -128,20 +124,22 @@ export class ProjektListComponent implements OnInit {
             })[0];
             aufgabe.skill = skill;
             //teilen -> aufgabe
-            const ohneMitarbeiter = this.aufgabenMitarbeiter.filter(e => {
+            // const ohneMitarbeiter = this.aufgabenMitarbeiter.filter(e => {
+            //   return e.aufgabe == aufgabe.id_aufgabe;
+            // });
+            // //mitarbeiter--->teil
+            // let mitMitarbeiter = [];
+            // for (let teil of ohneMitarbeiter) {
+            //   const mitarbeiter = this.mitarbeiters.filter(e => {
+            //     return (e.id_mitarbeiter = teil.mitarbeiter);
+            //   });
+            //   mitMitarbeiter.push(mitarbeiter);
+            // }
+            const teile = this.aufgabenMitarbeiter.filter(e => {
               return e.aufgabe == aufgabe.id_aufgabe;
             });
-            //mitarbeiter--->teil
-            let mitMitarbeiter = [];
-            for (let teil of ohneMitarbeiter) {
-              const mitarbeiter = this.mitarbeiters.filter(e => {
-                return (e.id_mitarbeiter = teil.mitarbeiter);
-              });
-              mitMitarbeiter.push(mitarbeiter);
-            }
-            aufgabe.teile = mitMitarbeiter;
+            aufgabe.teile = teile;
             this.aufgaben.push(aufgabe);
-            //console.log(aufgabe.teile);
           }
         },
         err => console.error(err)
@@ -149,6 +147,7 @@ export class ProjektListComponent implements OnInit {
     } catch (error) {
       throw new Error(`aufgaben error`);
     }
+    console.log(this.aufgaben);
     //Projekte
     try {
       await this.service.getProjekte().subscribe(
@@ -304,18 +303,36 @@ export class ProjektListComponent implements OnInit {
   }
 
   async aufgabeEinfugen(projekt: Projekt, aufgabe: Aufgabe) {
-    let x = {
-      nombre: "asdasdasd",
-      fecha_inicio: aufgabe.beginnt,
-      fecha_fin: aufgabe.endet
-    };
+    // Erster Teil
+    let teil = new AufgabenMitarbeiter();
+    let idAufgabe = new Aufgabe();
+    idAufgabe.id_aufgabe = aufgabe.id_aufgabe;
 
+    teil.ab = aufgabe.beginnt;
+    teil.bis = aufgabe.endet;
+    teil.aufgabe = idAufgabe;
+
+    //aus dem zweiten Teil
+    if (aufgabe.teile.length > 0) {
+      let indexTeil = aufgabe.teile.length;
+      console.log(aufgabe);
+      let letzterTag = new Date(aufgabe.teile[indexTeil - 1].bis);
+      teil.ab = new Date(letzterTag.getTime() + 24 * 60 * 60 * 1000);
+    }
+
+    // console.log(aufgabe.teile.length);
     let indexPr = await this.getIndexProjekt(projekt.id_projekt);
     let indexAufgabe = await this.getIndexAufgabe(indexPr, aufgabe.id_aufgabe);
-    console.log(indexPr + "proj");
-    console.log(indexAufgabe);
-    this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(x);
-    console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
+    // console.log(indexPr + "proj");
+
+    console.log(JSON.stringify(teil));
+
+    this.service.saveAufgabeMitarbeiter(teil).subscribe(result => {
+      console.log(result);
+      this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(teil);
+    });
+
+    //console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
   }
 }
 

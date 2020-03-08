@@ -72,17 +72,23 @@
               <div class="card-aufgabe" *ngFor="let teil of aufgabe.teile">
                 <mat-card>
                   <mat-card-header>
-                    <mat-card-title></mat-card-title>
-                    <mat-card-subtitle
-                      >asdasdasdasdasdasdasdasd</mat-card-subtitle
-                    >
+                    <mat-card-title *ngIf="teil.mitarbeiter">{{
+                      teil.mitarbeiter.vorname
+                    }}</mat-card-title>
+                    <mat-card-subtitle>{{
+                      (teil.ab | date: "MM-dd") +
+                        " --- " +
+                        (teil.bis | date: "MM-dd")
+                    }}</mat-card-subtitle>
                   </mat-card-header>
                   <mat-card-content>
-                    <p>aaaaaaaa</p>
-                    asdasdasd >
-                    <br />
-                    beginnt: {{ teil.ab | date: "yyyy-MM-dd" }} <br />
-                    endet: {{ teil.bis | date: "yyyy-MM-dd" }} <br />
+                    <img
+                      *ngIf="teil.mitarbeiter"
+                      mat-card-image
+                      with="50"
+                      height="140"
+                      src="{{ teil.mitarbeiter.image }}"
+                    />
                   </mat-card-content>
                   <mat-card-actions>
                     <button mat-stroked-button color="primary">
