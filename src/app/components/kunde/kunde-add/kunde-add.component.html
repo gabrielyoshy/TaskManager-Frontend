@@ -1,23 +1,25 @@
-<div class="col-md-4 offset-md-4">
-    <div class="card">
-        <div class="card-body">
-            <form>
-                <div class="form-group">
-                    <input type="text" name="vorname" [(ngModel)]="kunde.vorname" placeholder="Vorame" class="form-control" autofocus > 
-                </div>
-                <div class="form-group">
-                    <input type="text" name="nachname" [(ngModel)]="kunde.nachname" placeholder="Nachname" class="form-control" > 
-                </div>
-                <button class="btn btn-success btn-block" (click)="edit ? editKunde() : saveNewKunde()">
-                    Save
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
+<mat-card>
+  <form class="form">
+    <p>
+      <mat-form-field>
+        <mat-label>Vorname:</mat-label>
+        <input matInput name="vorname" [(ngModel)]="kunde.vorname" />
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field>
+        <mat-label>Nachname:</mat-label>
+        <input matInput name="nachname" [(ngModel)]="kunde.nachname" />
+      </mat-form-field>
+    </p>
 
-<div class="col-md-4">
-    <div class="card card-body text-center">
-        
-    </div>
-</div>
+    <p></p>
+    <button
+      mat-raised-button
+      (click)="edit ? editKunde() : saveNewKunde()"
+      color="primary"
+    >
+      Save
+    </button>
+  </form>
+</mat-card>

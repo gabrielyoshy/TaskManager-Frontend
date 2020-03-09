@@ -142,23 +142,8 @@ export class ServiceService {
   }
 
   /* Interface mit AufgabenMitarbeiter*/
-  async getAufgabenMitarbeiter() {
-    let bevorMitarbeiter;
-    let nachMitarbeiter = [];
-    await this.http
-      .get<any>(`${this.Url}/aufgabe_mitarbeiter/list`)
-      .subscribe(res => {
-        for (let e of res) {
-          if (e.mitarbeiter) {
-            this.getMitarbeite(e.mitarbeiter).subscribe(res => {
-              e.mitarbeiter = res;
-            });
-          }
-          nachMitarbeiter.push(e);
-        }
-      });
-
-    return nachMitarbeiter;
+  getAufgabenMitarbeiter() {
+    return this.http.get<any>(`${this.Url}/aufgabe_mitarbeiter/list`);
   }
 
   getAufgabeMitarbeiter(id: number) {

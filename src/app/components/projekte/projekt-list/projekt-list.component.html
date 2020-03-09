@@ -26,7 +26,7 @@
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>{{ aufgabe.name }}</ng-template>
             <div class="card-container">
-              <div class="card-aufgabe">
+              <div>
                 <mat-card>
                   <mat-card-header>
                     <img
@@ -39,7 +39,7 @@
                       aufgabe.skill.level
                     }}</mat-card-subtitle>
                   </mat-card-header>
-                  <mat-card-content>
+                  <mat-card-content class="aufgabe-content">
                     <p>{{ aufgabe.beschreibung }}</p>
                     <b
                       >Aufwand in Personentagen:
@@ -69,43 +69,57 @@
                   </mat-card-actions>
                 </mat-card>
               </div>
-              <div class="card-aufgabe" *ngFor="let teil of aufgabe.teile">
-                <mat-card>
-                  <mat-card-header>
-                    <mat-card-title *ngIf="teil.mitarbeiter">{{
-                      teil.mitarbeiter.vorname
-                    }}</mat-card-title>
-                    <mat-card-subtitle>{{
-                      (teil.ab | date: "MM-dd") +
-                        " --- " +
-                        (teil.bis | date: "MM-dd")
-                    }}</mat-card-subtitle>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <img
-                      *ngIf="teil.mitarbeiter"
-                      mat-card-image
-                      with="50"
-                      height="130"
-                      src="{{ teil.mitarbeiter.image }}"
-                    />
-                  </mat-card-content>
-                  <mat-card-actions>
-                    <button
-                      mat-stroked-button
-                      color="primary"
-                      (click)="
-                        deleteTeil(
-                          projekt.id_projekt,
-                          aufgabe.id_aufgabe,
-                          teil.id_aufgab_mitarb
-                        )
-                      "
-                    >
-                      <mat-icon>cancel</mat-icon>
-                    </button>
-                  </mat-card-actions>
-                </mat-card>
+              <div *ngFor="let teil of aufgabe.teile">
+                <section class="cards">
+                  <article
+                    [ngStyle]="{
+                      background: 'url(' + teil.mitarbeiter.image + ')'
+                    }"
+                    class="card card--1"
+                  >
+                    <div class="card__info-hover">
+                      <div class="card__clock-info">
+                        <span class="card__time"></span>
+                      </div>
+                    </div>
+                    <div class="card__img"></div>
+                    <a href="#" class="card_link">
+                      <div
+                        class="card__img--hover"
+                        [ngStyle]="{
+                          background: 'url(' + teil.mitarbeiter.image + ')'
+                        }"
+                      ></div>
+                    </a>
+                    <div class="card__info">
+                      <span class="card__category"><br /></span>
+                      <h3 class="card__by"><br /></h3>
+                      <span class="card__by"
+                        >{{
+                          (teil.ab | date: "MM-dd") +
+                            "--" +
+                            (teil.bis | date: "MM-dd")
+                        }}
+                        <a href="" class="card__author" title="">{{
+                          teil.mitarbeiter.vorname
+                        }}</a></span
+                      >
+                      <button
+                        mat-button
+                        color="primary"
+                        (click)="
+                          deleteTeil(
+                            projekt.id_projekt,
+                            aufgabe.id_aufgabe,
+                            teil.id_aufgab_mitarb
+                          )
+                        "
+                      >
+                        <mat-icon>cancel</mat-icon>
+                      </button>
+                    </div>
+                  </article>
+                </section>
               </div>
             </div>
             <!-- <div>

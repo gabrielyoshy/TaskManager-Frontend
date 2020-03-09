@@ -1,14 +1,19 @@
-<div class="list-group" >
-    <a  class="list-group-item list-group-item-action active">
-      Kundenliste
-    </a>
-    <a [routerLink]="['/kunde/edit', kunde.id_kunde]" class="list-group-item list-group-item-action"*ngFor= "let kunde of kundes">{{kunde.vorname}} {{kunde.nachname}} </a>
-    <a  class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">ejemplo de un cliente sin projecto</a>
-</div>
+<div class="container">
+  <mat-card *ngFor="let kunde of kunden" class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{ kunde.vorname }}</mat-card-title>
+      <mat-card-subtitle>{{ kunde.nachname }}</mat-card-subtitle>
+    </mat-card-header>
 
-<div class="w-100"></div>
-<div class="nuevo">
-    <button class="btn btn-info" [routerLink]= "['/kunde/add']">
-        Create
-    </button>
+    <mat-card-actions>
+      <button mat-button [routerLink]="['/kunde/edit', kunde.id_kunde]">
+        Edit
+      </button>
+
+      <button mat-button (click)="deleteKunde(kunde.id_kunde)">Delete</button>
+    </mat-card-actions>
+  </mat-card>
 </div>
+<button mat-raised-button [routerLink]="['/kunde/add']" color="primary">
+  Create
+</button>

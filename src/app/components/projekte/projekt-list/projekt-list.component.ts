@@ -3,6 +3,8 @@ import { ServiceService } from "../../../Service/service.service";
 import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
+import { HttpClient, HttpEventType } from "@angular/common/http";
+
 import {
   MatDialog,
   MatDialogRef,
@@ -12,9 +14,9 @@ import { Aufgabe } from "src/app/Models/Aufgabe";
 import { Projekt } from "src/app/Models/Projekt";
 import { Skill } from "src/app/Models/Skill";
 import { AufgabenMitarbeiter } from "src/app/Models/AufgabenMitarbeiter";
-import { JsonPipe } from "@angular/common";
 import { NeuerTeil } from "./neuer-teil";
 import { Mitarbeiter } from "src/app/Models/Mitarbeiter";
+import { ok } from "assert";
 
 export interface DialogData {
   gewahltes_projekt: number;
@@ -35,7 +37,7 @@ export interface DialogData {
   styleUrls: ["./projekt-list.component.css"]
 })
 export class ProjektListComponent implements OnInit {
-  //esto es para la prueba de las tareas
+  //das ist für die aufgabe prüfung
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -62,13 +64,29 @@ export class ProjektListComponent implements OnInit {
     private service: ServiceService,
     private router: Router,
     private _formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private httpClient: HttpClient
   ) {}
 
   ngOnInit(): void {
+    //das ist für die Aufgabe
     this.init();
+  }
 
-    //para las tareas
+  async init() {
+    this.kunden = await this.getKunden();
+    //console.log(this.kunden);
+    let skills = await this.getSkills();
+    let mitarbeiters = await this.getMitarbeiters();
+
+    let aufgabenMitarbeiter = await this.getAufgabenMitarbeiten(mitarbeiters);
+    //console.log(aufgabenMitarbeiter);
+
+    let aufgabens = await this.getAufgaben(skills, aufgabenMitarbeiter);
+    let projekte = await this.getProjekte(this.kunden, aufgabens);
+
+    //console.log(kunden);
+
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ["", Validators.required]
     });
@@ -77,106 +95,124 @@ export class ProjektListComponent implements OnInit {
     });
   }
 
-  async init() {
-    try {
-      await this.service.getKunden().subscribe(
-        res => {
-          this.kunden = res;
-        },
-        err => console.error(err)
-      );
-    } catch (error) {
-      throw new Error(`kunden error`);
-    }
-    //Skills
-    try {
-      await this.service.getSkills().subscribe(
-        res => {
-          this.skills = res;
-        },
-        err => console.error(err)
-      );
-    } catch (error) {
-      throw new Error(`skills error`);
-    }
-    //mitarbeiters
-    try {
-      await this.service.getMitarbeiter().subscribe(
-        res => {
-          this.mitarbeiters = res;
-        },
-        err => console.error(err)
-      );
-    } catch (error) {
-      throw new Error(`skills error`);
-    }
-    //aufgaben-Mitarbeiter
+  async getKunden() {
+    this.kunden = await this.service.getKunden().toPromise();
+    //console.log(kunden);
+    return this.kunden;
+  }
 
-    this.aufgabenMitarbeiter = await this.service.getAufgabenMitarbeiter();
+  async getSkills() {
+    this.skills = await this.service.getSkills().toPromise();
+    this.getImageSkills();
+    return this.skills;
+  }
+
+  async getMitarbeiters() {
+    this.mitarbeiters = await this.service.getMitarbeiter().toPromise();
+    this.getImageMitarbeiter();
+    return this.mitarbeiters;
+  }
+
+  async getAufgabenMitarbeiten(mitarbeiters) {
+    this.aufgabenMitarbeiter = await this.service
+      .getAufgabenMitarbeiter()
+      .toPromise();
+    //console.log(this.mitarbeiters);
+    for (let index = 0; index < this.aufgabenMitarbeiter.length; index++) {
+      let mitarbeiter = mitarbeiters.filter(res => {
+        return (
+          res.id_mitarbeiter == this.aufgabenMitarbeiter[index].mitarbeiter
+        );
+      });
+      this.aufgabenMitarbeiter[index].mitarbeiter = mitarbeiter[0];
+    }
     //console.log(this.aufgabenMitarbeiter);
 
-    //Aufgaben
-    try {
-      await this.service.getAufgaben().subscribe(
-        res => {
-          for (let aufgabe of res) {
-            //skill -> aufgabe
-            const skill = this.skills.filter(e => {
-              return e.id_skill == aufgabe.skill;
-            })[0];
-            aufgabe.skill = skill;
-            //teilen -> aufgabe
-            // const ohneMitarbeiter = this.aufgabenMitarbeiter.filter(e => {
-            //   return e.aufgabe == aufgabe.id_aufgabe;
-            // });
-            // //mitarbeiter--->teil
-            // let mitMitarbeiter = [];
-            // for (let teil of ohneMitarbeiter) {
-            //   const mitarbeiter = this.mitarbeiters.filter(e => {
-            //     return (e.id_mitarbeiter = teil.mitarbeiter);
-            //   });
-            //   mitMitarbeiter.push(mitarbeiter);
-            // }
-            const teile = this.aufgabenMitarbeiter.filter(e => {
-              return e.aufgabe == aufgabe.id_aufgabe;
-            });
-            aufgabe.teile = teile;
-            this.aufgaben.push(aufgabe);
-          }
-        },
-        err => console.error(err)
-      );
-    } catch (error) {
-      throw new Error(`aufgaben error`);
+    return this.aufgabenMitarbeiter;
+  }
+
+  async getAufgaben(skills, aufgabenMitarbeiter) {
+    this.aufgaben = await this.service.getAufgaben().toPromise();
+    for (let index = 0; index < this.aufgaben.length; index++) {
+      const skill = skills.filter(e => {
+        return e.id_skill == this.aufgaben[index].skill;
+      })[0];
+      this.aufgaben[index].skill = skill;
+
+      //console.log(aufgabenMitarbeiter);
+      const teile = aufgabenMitarbeiter.filter(e => {
+        return e.aufgabe == this.aufgaben[index].id_aufgabe;
+      });
+      this.aufgaben[index].teile = teile;
     }
-    console.log(this.aufgaben);
-    //Projekte
-    try {
-      await this.service.getProjekte().subscribe(
-        res => {
-          for (let projekt of res) {
-            //das sucht den Kunden
-            const kunde = this.kunden.filter(proj => {
-              return proj.id_kunde == projekt.kunde;
-            })[0];
-            projekt.kunde = kunde;
+    //console.log(aufgabenMitarbeiter);
 
-            //das sucht die Aufgaben
-            const aufgaben = this.aufgaben.filter(res => {
-              return res.projekt == projekt.id_projekt;
-            });
+    return this.aufgaben;
+  }
 
-            projekt.aufgaben = aufgaben;
+  async getProjekte(kunden, aufgabens) {
+    let projekte = await this.service.getProjekte().toPromise();
 
-            this.projekte.push(projekt);
-          }
-        },
-        err => console.error(err)
-      );
-    } catch (error) {
-      throw new Error(`Projekte error`);
+    for (let projekt of projekte) {
+      //das sucht den Kunden
+      const kunde = kunden.filter(proj => {
+        return proj.id_kunde == projekt.kunde;
+      })[0];
+      projekt.kunde = kunde;
+
+      //das sucht die Aufgaben
+      const aufgaben = aufgabens.filter(projekte => {
+        return projekte.projekt == projekt.id_projekt;
+      });
+
+      projekt.aufgaben = aufgaben;
+
+      this.projekte.push(projekt);
     }
-    //console.log(this.projekte);
+
+    return this.projekte;
+  }
+
+  getImageSkills() {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+    let retrievedImage: any;
+    let retrieveResonse: any;
+    for (let index = 0; index < this.skills.length; index++) {
+      this.httpClient
+        .get(
+          "http://localhost:9090/taskmanager/image/get/" +
+            this.skills[index].image
+        )
+        .subscribe(res => {
+          retrieveResonse = res;
+
+          let base64Data = retrieveResonse.picByte;
+
+          retrievedImage = "data:image/jpeg;base64," + base64Data;
+          this.skills[index].image = retrievedImage;
+        });
+    }
+  }
+
+  getImageMitarbeiter() {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+    let retrievedImage: any;
+    let retrieveResonse: any;
+    for (let index = 0; index < this.mitarbeiters.length; index++) {
+      this.httpClient
+        .get(
+          "http://localhost:9090/taskmanager/image/get/" +
+            this.mitarbeiters[index].image
+        )
+        .subscribe(res => {
+          retrieveResonse = res;
+
+          let base64Data = retrieveResonse.picByte;
+
+          retrievedImage = "data:image/jpeg;base64," + base64Data;
+          this.mitarbeiters[index].image = retrievedImage;
+        });
+    }
   }
 
   goToNewProjekt() {

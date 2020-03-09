@@ -60,6 +60,25 @@ export class MitarbeiterListComponent implements OnInit {
           this.retrievedImage = "data:image/jpeg;base64," + base64Data;
           this.mitarbeiter[index].image = this.retrievedImage;
         });
+      for (
+        let index2 = 0;
+        index2 < this.mitarbeiter[index].skill.length;
+        index2++
+      ) {
+        this.httpClient
+          .get(
+            "http://localhost:9090/taskmanager/image/get/" +
+              this.mitarbeiter[index].skill[index2].image
+          )
+          .subscribe(res => {
+            this.retrieveResonse = res;
+
+            let base64Data = this.retrieveResonse.picByte;
+
+            this.retrievedImage = "data:image/jpeg;base64," + base64Data;
+            this.mitarbeiter[index].skill[index2].image = this.retrievedImage;
+          });
+      }
     }
   }
 }
