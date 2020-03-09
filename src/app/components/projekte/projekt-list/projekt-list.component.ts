@@ -322,10 +322,6 @@ export class ProjektListComponent implements OnInit {
       teil.ab = new Date(letzterTag.getTime() + 24 * 60 * 60 * 1000);
     }
 
-    // // console.log(aufgabe.teile.length);
-
-    // // console.log(indexPr + "proj");
-
     // console.log(JSON.stringify(teil));
 
     const dialogRef = this.dialog.open(NeuerTeil, {
@@ -348,8 +344,9 @@ export class ProjektListComponent implements OnInit {
         let mitarbeiter = new Mitarbeiter();
         mitarbeiter.id_mitarbeiter = result.mitarbeiter;
         teil.mitarbeiter = mitarbeiter;
+        teil.bis = result.maxBis;
         this.service.saveAufgabeMitarbeiter(teil).subscribe(result => {
-          console.log(JSON.stringify(teil));
+          //console.log(JSON.stringify(teil));
           this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(teil);
         });
 
@@ -357,6 +354,22 @@ export class ProjektListComponent implements OnInit {
       }
       //result ? this.saveNewAufgabe(result) : console.log("Kein result");
     });
+  }
+
+  deleteTeil(id_projekt: number, id_aufgabe: number, id_aufgab_mitarb: number) {
+    this.service.deleteAufgabeMitarbeiter(id_aufgab_mitarb).subscribe(
+      async res => {
+        //Hier entferne ich die Aufgabe aus der Ansicht
+        let indexPr = await this.getIndexProjekt(id_projekt);
+        let indexAufgabe = await this.getIndexAufgabe(indexPr, id_aufgabe);
+        this.projekte[indexPr].aufgaben[indexAufgabe].teile = this.projekte[
+          indexPr
+        ].aufgaben[indexAufgabe].teile.filter(e => {
+          return e.id_aufgab_mitarb !== id_aufgab_mitarb;
+        });
+      },
+      err => console.error(err)
+    );
   }
 }
 

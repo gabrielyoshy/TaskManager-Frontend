@@ -61,7 +61,7 @@
                         >cancel</mat-icon
                       >
                     </button>
-                    <button>
+                    <button mat-stroked-button color="primary">
                       <mat-icon (click)="aufgabeEinfugen(projekt, aufgabe)"
                         >playlist_add</mat-icon
                       >
@@ -86,12 +86,22 @@
                       *ngIf="teil.mitarbeiter"
                       mat-card-image
                       with="50"
-                      height="140"
+                      height="130"
                       src="{{ teil.mitarbeiter.image }}"
                     />
                   </mat-card-content>
                   <mat-card-actions>
-                    <button mat-stroked-button color="primary">
+                    <button
+                      mat-stroked-button
+                      color="primary"
+                      (click)="
+                        deleteTeil(
+                          projekt.id_projekt,
+                          aufgabe.id_aufgabe,
+                          teil.id_aufgab_mitarb
+                        )
+                      "
+                    >
                       <mat-icon>cancel</mat-icon>
                     </button>
                   </mat-card-actions>
