@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ServiceService } from "../../../Service/service.service";
 import { Router } from "@angular/router";
+import { HttpClient, HttpEventType } from "@angular/common/http";
 
 @Component({
   selector: "app-mitarbeiter-list",
@@ -10,29 +11,55 @@ import { Router } from "@angular/router";
 export class MitarbeiterListComponent implements OnInit {
   mitarbeiter: any = [];
 
-  constructor(private service: ServiceService, private router: Router) {}
+  retrievedImage: any;
+  retrieveResonse: any;
+  constructor(
+    private service: ServiceService,
+    private router: Router,
+    private httpClient: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.service.getMitarbeiter().subscribe(
       res => {
         this.mitarbeiter = res;
-
-        console.log(this.mitarbeiter[3].skill);
+        this.getImage();
+        //console.log(this.mitarbeiter[3].skill);
       },
       err => console.error(err)
     );
   }
 
   deleteMitarbeiter(id: number) {
-    this.service.deleteSkill(id).subscribe(
+    console.log(id);
+    this.service.deleteMitarbeiter(id).subscribe(
       res => {
         let mitarb = this.mitarbeiter.filter(e => {
-          return e.id_skill !== id;
+          return e.id_mitarbeiter !== id;
         });
 
         this.mitarbeiter = mitarb;
       },
       err => console.error(err)
     );
+  }
+  getImage() {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+
+    for (let index = 0; index < this.mitarbeiter.length; index++) {
+      this.httpClient
+        .get(
+          "http://localhost:9090/taskmanager/image/get/" +
+            this.mitarbeiter[index].image
+        )
+        .subscribe(res => {
+          this.retrieveResonse = res;
+
+          let base64Data = this.retrieveResonse.picByte;
+
+          this.retrievedImage = "data:image/jpeg;base64," + base64Data;
+          this.mitarbeiter[index].image = this.retrievedImage;
+        });
+    }
   }
 }

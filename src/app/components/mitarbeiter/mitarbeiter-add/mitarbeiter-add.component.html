@@ -3,13 +3,13 @@
     <p>
       <mat-form-field>
         <mat-label>Vorname:</mat-label>
-        <input matInput name="name" [(ngModel)]="mitarbeiter.vorname" />
+        <input matInput name="vorname" [(ngModel)]="mitarbeiter.vorname" />
       </mat-form-field>
     </p>
     <p>
       <mat-form-field>
         <mat-label>Nachname:</mat-label>
-        <input matInput name="name" [(ngModel)]="mitarbeiter.nachname" />
+        <input matInput name="nachname" [(ngModel)]="mitarbeiter.nachname" />
       </mat-form-field>
     </p>
     <p>
@@ -23,12 +23,17 @@
       </mat-form-field>
     </p>
     <p>
-      <mat-form-field>
-        <mat-label>Image:</mat-label>
-        <input matInput name="image" [(ngModel)]="mitarbeiter.image" />
-      </mat-form-field>
+      <button type="button" mat-raised-button (click)="fileInput.click()">
+        Picture
+      </button>
+      <input
+        hidden
+        (change)="onFileChanged($event)"
+        #fileInput
+        type="file"
+        id="file"
+      />
     </p>
-    <p></p>
     <button
       mat-raised-button
       (click)="edit ? editMitarbeiter() : saveNewMitarbeiter()"
