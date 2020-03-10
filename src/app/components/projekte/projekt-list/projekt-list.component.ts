@@ -358,38 +358,47 @@ export class ProjektListComponent implements OnInit {
       teil.ab = new Date(letzterTag.getTime() + 24 * 60 * 60 * 1000);
     }
 
-    // console.log(JSON.stringify(teil));
+    // verfügbare Mitarbeiter:
 
-    const dialogRef = this.dialog.open(NeuerTeil, {
-      data: {
-        teil: teil,
-        mitarbeiters: this.mitarbeiters,
-        minAb: new Date(teil.ab),
-        maxBis: new Date(teil.bis)
-      }
-    });
+    // let verfugbareMitarb = [];
+    // verfugbareMitarb = this.mitarbeiters.filter(
+    //   e => {
+    //     return e.id_aufgabe !== id_aufgabe;
+    //   }
+    // );
 
-    dialogRef.afterClosed().subscribe(async result => {
-      //console.log(result);
-      if (result) {
-        let indexPr = await this.getIndexProjekt(projekt.id_projekt);
-        let indexAufgabe = await this.getIndexAufgabe(
-          indexPr,
-          aufgabe.id_aufgabe
-        );
-        let mitarbeiter = new Mitarbeiter();
-        mitarbeiter.id_mitarbeiter = result.mitarbeiter;
-        teil.mitarbeiter = mitarbeiter;
-        teil.bis = result.maxBis;
-        this.service.saveAufgabeMitarbeiter(teil).subscribe(result => {
-          //console.log(JSON.stringify(teil));
-          this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(teil);
-        });
+    console.log(this.aufgabenMitarbeiter);
 
-        console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
-      }
-      //result ? this.saveNewAufgabe(result) : console.log("Kein result");
-    });
+    // const dialogRef = this.dialog.open(NeuerTeil, {
+    //   data: {
+    //     teil: teil,
+    //     mitarbeiters: this.mitarbeiters,
+    //     minAb: new Date(teil.ab),
+    //     maxBis: new Date(teil.bis)
+    //   }
+    // });
+
+    // dialogRef.afterClosed().subscribe(async result => {
+    //   //console.log(result);
+    //   if (result) {
+    //     let indexPr = await this.getIndexProjekt(projekt.id_projekt);
+    //     let indexAufgabe = await this.getIndexAufgabe(
+    //       indexPr,
+    //       aufgabe.id_aufgabe
+    //     );
+    //     let mitarbeiter = new Mitarbeiter();
+    //     mitarbeiter.id_mitarbeiter = result.mitarbeiter;
+    //     teil.mitarbeiter = mitarbeiter;
+    //     teil.bis = result.maxBis;
+    //     this.service.saveAufgabeMitarbeiter(teil).subscribe(result => {
+    //       //console.log(JSON.stringify(teil));
+    //       this.projekte[indexPr].aufgaben[indexAufgabe].teile.push(teil);
+    //     });
+
+    //     console.log(this.projekte[indexPr].aufgaben[indexAufgabe]);
+    //   }
+    //   //result ? this.saveNewAufgabe(result) : console.log("Kein result");
+    // });
   }
 
   deleteTeil(id_projekt: number, id_aufgabe: number, id_aufgab_mitarb: number) {
