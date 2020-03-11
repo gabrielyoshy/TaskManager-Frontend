@@ -98,7 +98,11 @@ export class ServiceService {
   getMitarbeite(id: number) {
     return this.http.get<Mitarbeiter>(`${this.Url}/mitarbeiter/list/${id}`);
   }
-
+  getVerfugbarMitarbeiter(ab: String, bis: String, skill: number) {
+    return this.http.get<any>(
+      `${this.Url}/mitarbeiter/list/verfugbar/${ab}/${bis}/${skill}`
+    );
+  }
   deleteMitarbeiter(id: number) {
     return this.http.delete(`${this.Url}/mitarbeiter/delete/${id}`);
   }
